@@ -10,7 +10,7 @@
 
 <p>
 <img src="https://img.shields.io/badge/Paper-Coming_Soon-B31B1B?style=flat-square" alt="Paper coming soon"/>
-<img src="https://img.shields.io/badge/Papers_and_Resources-260-7C3AED?style=flat-square" alt="260 papers and resources"/>
+<img src="https://img.shields.io/badge/Papers_and_Resources-261-7C3AED?style=flat-square" alt="261 papers and resources"/>
 <img src="https://img.shields.io/badge/Coverage-Through_Oct_2026-2F5FE0?style=flat-square" alt="Coverage through October 2026"/>
 <img src="https://img.shields.io/badge/Last_Update-November_2026-0EA5E9?style=flat-square" alt="Last update November 2026"/>
 <a href="https://github.com/OmniAI-Lab-CUHKSZ/Jev_Survey/pulls"><img src="https://img.shields.io/badge/PRs-Welcome-4B8278?style=flat-square" alt="PRs welcome"/></a>
@@ -393,6 +393,9 @@ Direct readouts save tokens and allow reuse, but accuracy alone does not make a 
 - **`arXiv 2026`** Benchmarking candidate coverage and rejection policy transfer in typed decision models. [[paper](https://arxiv.org/abs/2610.03387v2)] [[code](https://github.com/luckykevvv/Decision_Model_Benchmark)]
 - **`arXiv 2026`** Laya as a Typed Probabilistic Assessor: An Independent Reproduction and a Preregistered Study of Calibration and Selective Escalation. [[paper](https://arxiv.org/abs/2609.33843)]
 - **`arXiv 2026`** Calibration and Risk-Budgeted Decisions with System One Models. [[paper](https://arxiv.org/abs/2610.19811v1)]
+- **`arXiv 2026`** Confidence Is Not a Promise: A Reference Audit of Typed Decision Models. [[paper](https://arxiv.org/abs/2610.36311v1)]
+- **`arXiv 2026`** Teacher Supervision, Fixed Representations and Calibration: Exact Risk Calculations for Candidate-Scoring Decision Models. [[paper](https://arxiv.org/abs/2610.26797v1)]
+- **`arXiv 2026`** UniJev: Separating Accuracy from Calibration in Trimodal System One Decision Models. [[paper](https://arxiv.org/abs/2610.25784v1)]
 - **`arXiv 2026`** Understanding Jev-Style System One Models: Does Structure Reduce Selection Bias? [[paper](https://arxiv.org/abs/2610.35826v2)]
 - **`arXiv 2026`** Labels Override Definitions in Jev-Style Typed Decision Models. [[paper](https://arxiv.org/abs/2610.02586v1)]
 - **`arXiv 2026`** Does a Hosted Decision Model Respect Irrelevant Alternatives? A Pre-Registered Test of Option-Set Dependence in Jev. [[paper](https://arxiv.org/abs/2610.16655v1)]
@@ -416,18 +419,31 @@ Direct readouts save tokens and allow reuse, but accuracy alone does not make a 
 
 ## 📊 Datasets and Benchmarks
 
+Training data specify the decision targets and situations available to the learner; evaluation tests how the resulting capabilities extend beyond those examples. The tables below are taken from the survey. Click a name to open the paper.
+
 <a id="training-data"></a>
 
 ### Training Data and Supervision
 
-| Resource | Training source and scale | Supervision | Held-out unit |
-| :--- | :--- | :--- | :--- |
-| SII-Decision | Public decision tasks, 39,279 questions | Soft | Frozen dev. set |
-| JevAgentHarness | 587 agent tasks, 15,694 states (30.9% post-mistake) | Gold, Soft, Recovery | Task seed |
-| Visual Jev | GQA Choice + SNLI-VE Claim, 30,416 + 9,000 items | Gold, Contrast | Image; TextVQA, TallyQA |
-| UniJev | Text, image, and video, 160,608 train / 3,124 test | Gold, Soft | Source group |
-| PACT | Answer-changing fact edits, 1,167 curated pairs | Gold, Contrast | Source family |
-| RubriX | Public + synthetic, 34,261 examples, 2,284 criteria | Gold | Criterion / level |
+Supervision differs in both its targets and the situations it covers: a selected answer, relative probability mass, a position on an ordered scale, paired evidence changes, or states that follow deliberately induced mistakes.
+
+<div align="center">
+
+| Resource | Training source and scale | Gold | Soft | Contrast | Recovery | Held-out unit |
+| :--- | :--- | :---: | :---: | :---: | :---: | :--- |
+| ***Model-derived targets*** | | | | | | |
+| [SII-Decision](https://arxiv.org/abs/2610.03935v2) | Public decision tasks<br><sub>39,279 questions (27B setting)</sub> |  | ● |  |  | Frozen dev. set (selection) |
+| [JevAgentHarness](https://arxiv.org/abs/2610.21412v1) | 587 agent tasks<br><sub>15,694 states; 30.9% post-mistake</sub> | ● | ● |  | ● | Task seed† |
+| ***Labelled multimodal targets*** | | | | | | |
+| [Visual Jev](https://arxiv.org/abs/2609.25845v1) | GQA Choice + SNLI-VE Claim<br><sub>30,416 + 9,000 items; 2–8 candidates</sub> | ● |  | ◐ |  | Image; TextVQA, TallyQA |
+| [UniJev](https://arxiv.org/abs/2610.25784v1) | Text, image, and video sources<br><sub>160,608 train / 3,124 test questions</sub> | ● | ● |  |  | Source group |
+| ***Evidence- and rubric-structured targets*** | | | | | | |
+| [PACT](https://arxiv.org/abs/2609.35865) | Answer-changing fact edits<br><sub>1,167 curated pairs; 2,334 records</sub> | ● |  | ● |  | Source family |
+| [RubriX](https://arxiv.org/abs/2610.34875v1) | Public + proprietary synthetic<br><sub>34,261 examples; 2,284 criteria</sub> | ● |  |  |  | Criterion / level‡ |
+
+</div>
+
+<sub>**Gold**: benchmark, human, or rubric labels. **Soft**: model- or teacher-derived probability targets. **Contrast**: paired, counterfactual, or evidence-ablated views. **Recovery**: states that follow deliberately induced errors. ● primary training signal, ◐ partial. Counts keep each study's original units.<br>† Splits share the task generator, and some early states repeat across splits. ‡ Held out at test but not fully at validation; also evaluated on human-labelled benchmarks.</sub>
 
 - **`arXiv 2026`** General Decision Models: Benchmarking and Insights Beyond Jev. [[paper](https://arxiv.org/abs/2610.03935v2)]
 - **`arXiv 2026`** Visual Jev: Accurate and Efficient Decisions from Shared Visual Context. [[paper](https://arxiv.org/abs/2609.25845v1)] [[code](https://github.com/guanxuyu-sv/Visual-Jev)]
@@ -440,18 +456,33 @@ Direct readouts save tokens and allow reuse, but accuracy alone does not make a 
 
 ### Evaluation Benchmarks
 
-| Benchmark / Study | Group | Coverage and scale | Measures |
-| :--- | :--- | :--- | :--- |
-| Broad evaluation | General | 37 datasets, 346,009 requests | Accuracy, probability |
-| JEVal | General | 36 datasets, 10 domains, 11,257 bilingual instances | Accuracy |
-| TypedBench | Diagnostic | 9 suites, 7 policy generators | Accuracy, probability, robustness, cost |
-| DecisionPivot | Diagnostic | 40,033 items | Accuracy, probability, robustness |
-| GraphDecisionBench | Diagnostic | Recognition vs. construction | Accuracy, robustness |
-| Selection-bias study | Diagnostic | 1,700 questions, 8 presentations | Accuracy, robustness |
-| System1-Arena | Agent | 105 tasks, 138 environments, 92k questions | Accuracy, completion, cost |
-| JevAgentHarness | Agent | Recorded states and live execution | Accuracy, completion, cost |
-| Paired harness study | Agent | 11 decision points, 13.9k cases | Accuracy, robustness, cost |
-| BLADE | Agent | 1,228 failed trajectories | Attribution |
+Existing evaluations fall into general-purpose, capability-specific/diagnostic, and agent-oriented studies, and differ in which protocol they use and which dimensions they measure.
+
+<div align="center">
+
+| Benchmark / Study | Protocol | Task coverage and scale | Acc. | Prob. | Rob. | Compl. | Cost | Attr. |
+| :--- | :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| ***General-purpose evaluations*** | | | | | | | | |
+| [Broad evaluation](https://arxiv.org/abs/2609.37647v1) | <img src="https://img.shields.io/badge/S-3A6E9A?style=flat-square" alt="S" title="Static fixed-request evaluation"/> | 37 datasets<br><sub>346,009 requests</sub> | ● | ● |  |  |  |  |
+| [JEVal](https://arxiv.org/abs/2610.03935v2) | <img src="https://img.shields.io/badge/S-3A6E9A?style=flat-square" alt="S" title="Static fixed-request evaluation"/> | 36 datasets; 10 domains<br><sub>11,257 bilingual instances</sub> | ● |  |  |  |  |  |
+| ***Capability-specific and diagnostic evaluations*** | | | | | | | | |
+| [TypedBench](https://arxiv.org/abs/2610.11392v2) | <img src="https://img.shields.io/badge/S-3A6E9A?style=flat-square" alt="S" title="Static fixed-request evaluation"/> <img src="https://img.shields.io/badge/I-6B4C9A?style=flat-square" alt="I" title="Controlled intervention"/> | 9 suites<br><sub>7 policy generators</sub> | ● | ● | ● |  | ● |  |
+| [DecisionPivot](https://arxiv.org/abs/2610.28522v1) | <img src="https://img.shields.io/badge/S-3A6E9A?style=flat-square" alt="S" title="Static fixed-request evaluation"/> <img src="https://img.shields.io/badge/I-6B4C9A?style=flat-square" alt="I" title="Controlled intervention"/> | 40,033 items<br><sub>7,800 generated; 32,233 public</sub> | ● | ● | ● |  |  |  |
+| [GraphDecisionBench](https://arxiv.org/abs/2610.06354v3) | <img src="https://img.shields.io/badge/S-3A6E9A?style=flat-square" alt="S" title="Static fixed-request evaluation"/> <img src="https://img.shields.io/badge/I-6B4C9A?style=flat-square" alt="I" title="Controlled intervention"/> | Recognition; construction<br><sub>graph–text contrasts</sub> | ● |  | ◐ |  |  |  |
+| [Selection-bias study](https://arxiv.org/abs/2610.35826v2) | <img src="https://img.shields.io/badge/S-3A6E9A?style=flat-square" alt="S" title="Static fixed-request evaluation"/> <img src="https://img.shields.io/badge/I-6B4C9A?style=flat-square" alt="I" title="Controlled intervention"/> | 1,700 questions<br><sub>8 presentations; fixed-order repeats</sub> | ● |  | ● |  |  |  |
+| Shift studies [[1]](https://arxiv.org/abs/2610.36311v1) [[2]](https://arxiv.org/abs/2610.34329v1) | <img src="https://img.shields.io/badge/S-3A6E9A?style=flat-square" alt="S" title="Static fixed-request evaluation"/> <img src="https://img.shields.io/badge/I-6B4C9A?style=flat-square" alt="I" title="Controlled intervention"/> | Distribution shift<br><sub>language, domain, prior, candidates</sub> |  | ● | ● |  |  |  |
+| Targeted diagnostics [[1]](https://arxiv.org/abs/2609.39496v1) [[2]](https://arxiv.org/abs/2609.35342v1) [[3]](https://arxiv.org/abs/2609.37470v2) [[4]](https://arxiv.org/abs/2609.31142v2) | <img src="https://img.shields.io/badge/S-3A6E9A?style=flat-square" alt="S" title="Static fixed-request evaluation"/> <img src="https://img.shields.io/badge/I-6B4C9A?style=flat-square" alt="I" title="Controlled intervention"/> | Absent answers; context edits<br><sub>probability relations</sub> | ◐ | ● | ● |  |  |  |
+| ***Agent-oriented and interactive evaluations*** | | | | | | | | |
+| [System1-Arena](https://arxiv.org/abs/2610.21244v1) | <img src="https://img.shields.io/badge/S-3A6E9A?style=flat-square" alt="S" title="Static fixed-request evaluation"/> <img src="https://img.shields.io/badge/C-B85C2C?style=flat-square" alt="C" title="Interactive closed-loop execution"/> | 105 tasks; 138 environments<br><sub>92k questions</sub> | ● |  |  | ● | ● |  |
+| [JevAgentHarness](https://arxiv.org/abs/2610.21412v1) | <img src="https://img.shields.io/badge/S-3A6E9A?style=flat-square" alt="S" title="Static fixed-request evaluation"/> <img src="https://img.shields.io/badge/R-3F8C6B?style=flat-square" alt="R" title="Replay on recorded decision states"/> <img src="https://img.shields.io/badge/C-B85C2C?style=flat-square" alt="C" title="Interactive closed-loop execution"/> | Isolated decisions<br><sub>recorded states; live execution</sub> | ● |  |  | ● | ● |  |
+| [Paired harness study](https://arxiv.org/abs/2610.02267v1) | <img src="https://img.shields.io/badge/S-3A6E9A?style=flat-square" alt="S" title="Static fixed-request evaluation"/> <img src="https://img.shields.io/badge/I-6B4C9A?style=flat-square" alt="I" title="Controlled intervention"/> | 11 decision points<br><sub>7,283 base cases; 6,640 variants</sub> | ● |  | ● |  | ● |  |
+| [BLADE](https://arxiv.org/abs/2610.18780v1) | <img src="https://img.shields.io/badge/I-6B4C9A?style=flat-square" alt="I" title="Controlled intervention"/> <img src="https://img.shields.io/badge/T-9A7B2A?style=flat-square" alt="T" title="Offline trajectory audit"/> | 1,228 failed trajectories<br><sub>5 benchmark subsets</sub> |  |  |  |  | ◐ | ● |
+
+</div>
+
+<sub>**Protocols** (not mutually exclusive): <img src="https://img.shields.io/badge/S-3A6E9A?style=flat-square" alt="S" title="Static fixed-request evaluation"/> static fixed-request evaluation; <img src="https://img.shields.io/badge/I-6B4C9A?style=flat-square" alt="I" title="Controlled intervention"/> controlled intervention; <img src="https://img.shields.io/badge/R-3F8C6B?style=flat-square" alt="R" title="Replay on recorded decision states"/> replay on recorded decision states; <img src="https://img.shields.io/badge/C-B85C2C?style=flat-square" alt="C" title="Interactive closed-loop execution"/> interactive closed-loop execution; <img src="https://img.shields.io/badge/T-9A7B2A?style=flat-square" alt="T" title="Offline trajectory audit"/> offline trajectory audit.<br>**Measured dimensions**: **Acc.** decision accuracy or solution quality; **Prob.** calibration or probability consistency; **Rob.** robustness to order, framing, shift, or edits; **Compl.** task completion; **Cost** latency, efficiency, or deployment cost; **Attr.** error attribution. ● reported, ◐ partially reported.</sub>
+
+**Reading the protocols.** Static tests assess fixed requests; controlled interventions isolate sensitivity to changed inputs or alternatives; replay evaluates recorded states; trajectory audits analyze completed executions; closed-loop evaluation additionally captures states induced by the tested policy. Together they separate local accuracy and calibration from robustness, task completion, and end-to-end cost.
 
 #### General-Purpose Evaluations
 
@@ -488,6 +519,32 @@ Within-study comparisons point to four recurring findings; heterogeneous tasks a
 2. **Accuracy does not establish decision reliability.** Models with near-identical accuracy can differ several-fold in coverage at a fixed error rate.
 3. **Candidate coverage and evidence constrain selection.** Closed-set accuracy says little about rejecting when the right answer is missing; better candidates and evidence often matter more than a better selector.
 4. **Static gains need not translate into system-level gains.** Identical static accuracy can yield very different closed-loop completion, and careless delegation can raise total cost.
+
+<div align="center">
+
+| Study | Comparison setting | Main finding |
+| :--- | :--- | :--- |
+| ***Computation depth and reuse*** | | |
+| [FunDM](https://arxiv.org/abs/2610.17175v1) | 24-layer readout vs. full 36-layer Qwen3-8B; eight benchmarks. | Mean accuracy: 75.0% (+1 head layer) vs. 75.7%. MMLU-Pro BF16 vLLM throughput: 1.56× teacher (16 active sequences). |
+| [Verdict](https://arxiv.org/abs/2610.20778v1) | Five packed vs. separate questions; same weights, BF16, typed-decisions test. | Per-case latency speedup: 1.3–1.8× (batch 1), 2.7–2.8× (batch 8), across base/large models. |
+| [SanSi](https://arxiv.org/abs/2610.07730v2) | Ouro-1.4B one-loop baseline vs. SanSi at three/eight loops; 10,027 test items, three seeds. | Mean accuracy: 58.6% / 70.4% / 72.0%. Eight-loop test-set GPU time: 7.7× baseline (RTX A6000). |
+| [Iris](https://arxiv.org/abs/2610.33702v2) | Independent vs. state-conditioned Iris-4B; Mind2Web cross-task split, 16 crops. | First-choice accuracy: 78.38% vs. 89.60%; OneJev-4B retrained on the same crop steps: 90.58%. Conditioning prevents cross-request reuse. |
+| [Clinical criteria](https://arxiv.org/abs/2610.35721v1) | Jev 1.14 Single vs. Batch; TrialGPT test, 774 criteria. | Median complete-job latency: 8.08 → 1.20 s; macro-F1: 0.646 → 0.652. |
+| ***Decision reliability*** | | |
+| [Broad evaluation](https://arxiv.org/abs/2609.37647v1) | Pooled vs. dataset-level ECE; 279,925 answers, 22 Choice datasets, 15 bins. | Pooled ECE: 0.028; unweighted mean dataset ECE: 0.061. |
+| [OpenJev-RLCD](https://arxiv.org/abs/2609.38850v1) | Two-stage RLCD vs. GRPO+KL; Qwen3-1.7B, 1,260 GSM8K-Verify items; dev-fitted temperature scaling. | Accuracy: (92.2±0.7)% vs. (91.8±0.6)%. Coverage at empirical error ≤5%: (81.1±7.2)% vs. (19.4±7.3)% (three-seed mean ± s.d.). |
+| ***Candidate coverage and supplied evidence*** | | |
+| [Missing answers](https://arxiv.org/abs/2609.39496v1) | 100 paired arithmetic cases, explicit rejection; threshold fitted on 20 separate cases. | Answer-present accuracy / answer-absent rejection: 99% / 7% by default, 97% / 79% with thresholding. |
+| [Simulation](https://arxiv.org/abs/2610.01834v2) | 134 unseen ALFWorld games, 50-step limit; no lookahead vs. cloned-game observations and new commands. | Completion: 42/134 → 116/134 with lookahead (first run). |
+| ***System-level utility*** | | |
+| [System1-Arena](https://arxiv.org/abs/2610.21244v1) | Decision-2.0-Vega-27B / Jev 1.13 / Qwen3.5-9B; agent-category tests. | Static agent-category accuracy: 67.8% each; closed-loop completion: 26.5% / 17.4% / 5.7%. |
+| [JevAgentHarness](https://arxiv.org/abs/2610.21412v1) | Full tool replacement or fitted delegation vs. Gemini 3.5 Flash; 500 DecisionGym tasks. | Full replacement: -19.0 pp success. Fitted tool/argument delegation: 14.2% net cost saving; unchanged observed task outcomes. |
+| [SearchJev](https://arxiv.org/abs/2610.05107v1) | SearchJev-0.8B + Qwen3.5-27B vs. System 2 alone; 100 BrowseComp-Plus questions, one run each. | Median active time (model calls + retrieval): 4,080 → 868 s; accuracy: 45% → 46%. |
+| [Coding control](https://arxiv.org/abs/2610.24649v1) | Jev vs. no controller; Sonnet 5.5, Terminal-Bench 2.1; 21 held-out tasks, three repetitions/arm. | Pass rate: 73.0% each; no detectable difference. Geometric-mean USD/attempt ratio: 1.19 (95% CI: 1.02–1.36). |
+
+</div>
+
+<sub>Representative within-study comparisons; conditions and cost measures differ across studies, so numbers are not comparable across rows. pp: percentage points; ECE: expected calibration error; CI: confidence interval.</sub>
 
 <a id="agentic-workflows"></a>
 
@@ -599,7 +656,7 @@ Inside an agent, typed judgments decide which evidence reaches the reasoner, how
 #### Mapping Decisions to Action
 
 - **`arXiv 2026`** System One Models for Wireless Decision-Making:Applications and Performance Evaluation. [[paper](https://arxiv.org/abs/2610.04345v1)]
-- **`arXiv 2026`** Replacing Large Language Models with Jev De\-ci\-sion Models for Low-La\-ten\-cy Edge Service Orchestration. [[paper](https://arxiv.org/abs/2609.22753v2)]
+- **`arXiv 2026`** Replacing Large Language Models with Jev Decision Models for Low-Latency Edge Service Orchestration. [[paper](https://arxiv.org/abs/2609.22753v2)]
 - **`arXiv 2026`** Jev for Scientific Decisions: Evaluating Semantic Choices and Their Consequences. [[paper](https://arxiv.org/abs/2609.24965v4)] [[code](https://github.com/bydeng01/scientific-decision-eval)]
 
 <a id="runtime-coordination"></a>
