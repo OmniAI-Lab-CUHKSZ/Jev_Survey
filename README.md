@@ -864,7 +864,10 @@ If you find this survey or repository useful, please cite our paper ([PDF](Jev-L
 ```bibtex
 @misc{jev_survey_2026,
   title        = {Jev-Like Models and Decision Systems: A Survey},
-  author       = {Gao, Yiwei and Zhang, Chenhao and Ye, Mingcheng and Li, Mingxuan and Zhang, Junbo and Chen, Jiale and Zu, Lizheng and Xu, Hongbin and Fan, Hehe and Wu, Baoyuan and Li, Ming and Zhu, Zheng},
+  author       = {Gao, Yiwei and Zhang, Chenhao and Ye, Mingcheng and
+                  Li, Mingxuan and Zhang, Junbo and Chen, Jiale and
+                  Zu, Lizheng and Xu, Hongbin and Fan, Hehe and
+                  Wu, Baoyuan and Li, Ming and Zhu, Zheng},
   year         = {2026},
   howpublished = {\url{https://github.com/OmniAI-Lab-CUHKSZ/Jev_Survey}}
 }
