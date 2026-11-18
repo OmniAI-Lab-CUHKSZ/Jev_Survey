@@ -1,22 +1,37 @@
 <div align="center">
 
+<h1>Jev-Like Models and Decision Systems: A Survey</h1>
+
+<p><b>Typed Decisions · Model Construction · Agentic Integration · Co-Evolution</b></p>
+
 <p>
-<a href="assets/jev_teaser.pdf"><img src="assets/jev_teaser.png" width="100%" alt="Overview of the survey: learn to judge, judge to act, and learn from execution."/></a>
+Yiwei Gao<sup>1*</sup>, Chenhao Zhang<sup>1*</sup>, Mingcheng Ye<sup>2*</sup>, Mingxuan Li<sup>1*</sup>, Junbo Zhang<sup>1*</sup>, Jiale Chen<sup>3*</sup>, Yucheng He<sup>1*</sup>,<br>
+Lizheng Zu<sup>3</sup>, Hongbin Xu<sup>4</sup>, Hehe Fan<sup>5</sup>, Baoyuan Wu<sup>1</sup>, Ming Li<sup>1†</sup>, Zheng Zhu<sup>6</sup>
 </p>
 
-# Jev-Like Models and Decision Systems: A Survey
-
-**Typed Decisions · Model Construction · Agentic Integration · Co-Evolution**
+<p><sub>
+<sup>1</sup>The Chinese University of Hong Kong, Shenzhen &nbsp;
+<sup>2</sup>Beijing Institute of Technology &nbsp;
+<sup>3</sup>Shenzhen University<br>
+<sup>4</sup>South China University of Technology &nbsp;
+<sup>5</sup>Zhejiang University &nbsp;
+<sup>6</sup>GigaAI<br>
+<sup>*</sup>Equal contribution &nbsp; <sup>†</sup>Corresponding author
+</sub></p>
 
 <p>
-<a href="Jev-Like_Models_and_Decision_Systems_A_Survey.pdf"><img src="https://img.shields.io/badge/Paper-PDF-B31B1B?style=flat-square&logo=adobeacrobatreader&logoColor=white" alt="Paper PDF"/></a>
-<img src="https://img.shields.io/badge/Papers_and_Resources-261-7C3AED?style=flat-square" alt="261 papers and resources"/>
+<a href="Jev-Like_Models_and_Decision_Systems_A_Survey.pdf"><img src="https://img.shields.io/badge/Paper-PDF-B31B1B?style=for-the-badge&logo=adobeacrobatreader&logoColor=white" alt="Paper PDF"/></a>
+<a href="#table-of-contents"><img src="https://img.shields.io/badge/Papers_%26_Resources-258-7C3AED?style=for-the-badge" alt="258 papers and resources"/></a>
+<a href="https://github.com/OmniAI-Lab-CUHKSZ/Jev_Survey/stargazers"><img src="https://img.shields.io/github/stars/OmniAI-Lab-CUHKSZ/Jev_Survey?style=for-the-badge&logo=github&color=F5B700" alt="GitHub stars"/></a>
+</p>
+<p>
 <img src="https://img.shields.io/badge/Coverage-Through_Oct_2026-2F5FE0?style=flat-square" alt="Coverage through October 2026"/>
-<img src="https://img.shields.io/badge/Last_Update-November_2026-0EA5E9?style=flat-square" alt="Last update November 2026"/>
+<img src="https://img.shields.io/badge/Last_Update-2026--11--18-0EA5E9?style=flat-square" alt="Last update 2026-11-18"/>
 <a href="https://github.com/OmniAI-Lab-CUHKSZ/Jev_Survey/pulls"><img src="https://img.shields.io/badge/PRs-Welcome-4B8278?style=flat-square" alt="PRs welcome"/></a>
 </p>
 
 <p>
+<a href="#overview">Overview</a> ·
 <a href="#evolution">Evolution</a> ·
 <a href="#building-jev-models">Building Jev</a> ·
 <a href="#datasets-and-benchmarks">Datasets &amp; Benchmarks</a> ·
@@ -28,44 +43,63 @@
 
 </div>
 
+<p align="center">
+<a href="assets/jev_teaser.pdf"><img src="assets/jev_teaser.png" width="100%" alt="Overview of the survey: learn to judge, judge to act, and learn from execution."/></a>
+</p>
+<p align="center"><sub><i>Overview of the survey. Jev-like models learn typed judgments from labels and teacher supervision; during execution these judgments guide action selection, with an LLM providing further reasoning when needed. Verified execution feedback is stored in memory or used to train the decision model.</i></sub></p>
+
 <a id="news"></a>
 
 ## 📰 News
 
-- **[2026/11/18]** The survey paper is finalized. Read the [PDF](Jev-Like_Models_and_Decision_Systems_A_Survey.pdf).
-- **[2026/11/10]** We release **Jev Survey**, a curated collection of papers, models, and benchmarks on Jev and typed decision models.
+- **[2026/11/18]** 📄 The survey paper is finalized. Read the [PDF](Jev-Like_Models_and_Decision_Systems_A_Survey.pdf). The README now mirrors the paper: all figures (including the agentic-workflow taxonomy), the representative-model, training-data, and benchmark tables, and the research agenda.
+- **[2026/11/10]** 🚀 We release **Jev Survey**, a curated collection of papers, models, and benchmarks on Jev and typed decision models.
 
 ---
 
 <a id="introduction"></a>
 
-## 📖 Introduction
+<a id="overview"></a>
 
-Official repository for **Jev-Like Models and Decision Systems: A Survey**.
+## 📖 Overview
 
-LLM agents repeatedly judge which information matters, whether an intermediate result is reliable, and what to do next. Generating an extended response for every such judgment is costly when decisions are frequent or latency-sensitive. **Typed decision models** such as **Jev** offer an alternative: given evidence, a question, and a response type, they return bounded choices, scores, or probabilities that programs can consume directly, and they leave extended reasoning to the cases that need it.
+> **Abstract.** Large language model (LLM) agents repeatedly judge which information matters and what action to take. Generating an extended response for every judgment can be costly, particularly in tasks that require frequent or rapid decisions. **Typed decision models** such as **Jev** provide an alternative by returning bounded choices, scores, or probabilities that programs can use directly. This survey reviews commercial Jev, open Jev-like models, and their use in agent systems. We organize their mechanisms and operating conditions around **decision space**, **information state**, and **computation policy**, then examine workflow functions, runtime coordination, and system improvement. Our analysis shows that a decision model's effectiveness depends on the evidence and alternatives it receives, while the benefit of collaboration depends on how judgments guide computation and execution.
 
-This survey reviews commercial Jev, open Jev-like models, and their use in agent systems, covering work through **October 2026**. We organize mechanisms and operating conditions around **decision space**, **information state**, and **computation policy**, and distinguish **model-level fusion** from **system-level collaboration**. Our central observation is that a decision model is only as good as the evidence and alternatives it receives, and that collaboration pays off only when extra computation can actually correct its errors.
-
-The figure above follows decision capabilities through three stages:
+The overview figure follows decision capabilities through three stages:
 
 | Stage | What happens | Covered in |
 | :--- | :--- | :--- |
 | **01 Learn to Judge** | Pretrained backbones, labels, and teacher reasoning are turned into typed decisions. | [Building Jev Models](#building-jev-models) |
 | **02 Judge to Act** | Typed judgments screen evidence and options, call on a reasoning LLM when needed, and drive execution. | [Agentic Workflows](#agentic-workflows) |
-| **03 Learn from Execution** | Execution feedback flows into memory, training, and distillation, producing reusable capability and recursive self-improvement. | [Self-Improvement](#recursive-self-improvement) · [Future Directions](#future-directions) |
+| **03 Learn from Execution** | Execution feedback flows into memory, training, and distillation, producing reusable capability and system improvement. | [System Improvement](#system-improvement) · [Future Directions](#future-directions) |
+
+**Takeaways.** Computational reuse can reduce repeated work, while candidate coverage and evidence sufficiency shape which judgments a model can resolve reliably. Collaboration pays off only when additional processing addresses unresolved difficulties, and it also produces experience that can improve future decisions. We identify candidate construction, adaptive collaboration, and capability internalization as connected research directions.
 
 <a id="typed-decision-interface"></a>
 
 ## 🧩 Typed Decision Interface
 
-A typed decision model answers a request $r=(s,q,\tau,\Gamma)$, where $s$ is the evidence state, $q$ the question, $\tau$ the response type, and $\Gamma$ the permitted answer space. Both $q$ and $\Gamma$ are supplied at inference time, so one model can serve many changing decision tasks through a common interface. Jev exposes three text primitives:
+A typed decision model answers a request $r=(s,q,\tau,\Gamma)$, where $s$ is the evidence state, $q$ the question, $\tau$ the response type, and $\Gamma$ the permitted answer space. Both $q$ and $\Gamma$ are supplied at inference time, so one model can serve many changing decision tasks through a common interface. Jev exposes three text primitives, and the figure below adds `Box` for image grounding:
+
+<table>
+<tr>
+<td width="50%" valign="middle">
+<a href="assets/typed_judgments.pdf"><img src="assets/typed_judgments.png" width="100%" alt="Typed judgments in a customer-support scenario: Choice, Noul, Score, and Box."/></a>
+</td>
+<td width="50%" valign="middle">
 
 | Primitive | Question it answers | Output |
 | :--- | :--- | :--- |
-| `Choice` | Which of the supplied options should be taken? | A probability distribution over the candidate set |
-| `Score` | Where does the case fall on an ordered scale? | A distribution over ordered rating levels |
-| `Noul` | Is this proposition true? | The probability that the proposition holds |
+| `Choice` | Which supplied option should be taken? | Probabilities over the candidate set |
+| `Noul` | Is this proposition true? | Probability that it holds |
+| `Score` | Where does the case fall on an ordered scale? | Distribution over rating levels |
+| `Box` | Where is the object in the image? | Bounding-box coordinates |
+
+</td>
+</tr>
+</table>
+
+<p align="center"><sub><i>Typed judgments in a customer-support scenario. <code>Choice</code> selects a team, <code>Noul</code> assesses a proposition, <code>Score</code> rates urgency, and <code>Box</code> locates an object in an image. Each request specifies how the output should be interpreted.</i></sub></p>
 
 We analyze every system in the survey along three shared dimensions:
 
@@ -90,20 +124,23 @@ System 1 and System 2 are used here as **computational roles** rather than fixed
   - [Decision Readout](#decision-readout)
   - [Learning Methods](#learning-methods)
   - [Inference Strategies](#inference-strategies)
-  - [Reliability and Limitations](#reliability-and-limitations)
+  - [Representative Models](#representative-models)
+  - [Advantages and Limitations](#advantages-and-limitations)
 - [Datasets and Benchmarks](#datasets-and-benchmarks)
   - [Training Data and Supervision](#training-data)
   - [Evaluation Benchmarks](#evaluation-benchmarks)
   - [Key Empirical Findings](#key-findings)
+  - [Evaluation Limitations and Gaps](#evaluation-gaps)
 - [Jev in Agentic Workflows](#agentic-workflows)
   - [Information and Memory Selection](#information-and-memory-selection)
   - [Computation and Reasoning Control](#computation-and-reasoning-control)
   - [Verification and Review](#verification-and-review)
   - [Action Selection](#action-selection)
   - [Runtime Coordination](#runtime-coordination)
-  - [Recursive Self-Improvement](#recursive-self-improvement)
+  - [Decision-Guided System Improvement](#system-improvement)
 - [Domain Applications](#domain-applications)
 - [Challenges and Future Directions](#future-directions)
+  - [Research Agenda](#research-agenda)
 - [Foundations and Related Techniques](#foundations)
 - [Related Surveys](#related-surveys)
 - [Citation](#citation)
@@ -116,11 +153,12 @@ System 1 and System 2 are used here as **computational roles** rather than fixed
 
 ## 🌳 Evolution of Decision Models
 
-Jev-like models grow out of five research lines that make learned prediction reusable across changing decision tasks. Classic lines run up to 2025; the post-Jev wave (from **15 Sep 2026**) is shown on a finer time axis. Click the figure for the vector PDF.
+Jev-like models grow out of five research lines that make learned prediction reusable across changing decision tasks. Classic lines run up to 2025; the post-Jev wave (from **15 Sep 2026**) is shown on a finer time axis. Click any figure in this README to open the original vector PDF.
 
-<div align="center">
+<p align="center">
 <a href="assets/decision_model_tree.pdf"><img src="assets/decision_model_tree.png" width="100%" alt="Evolution of decision models along five research lines: discriminative prediction, representation matching, LM probability readout, candidate/query structure, and iterative/adaptive computation."/></a>
-</div>
+</p>
+<p align="center"><sub><i>Timeline of representative decision models and their technical foundations, organized into five directions. The vertical band marks Jev's introduction on 15 September 2026, separating earlier foundations from subsequent developments.</i></sub></p>
 
 <a id="discriminative-prediction"></a>
 
@@ -181,7 +219,7 @@ Candidate scores are read from the answer-token likelihoods of existing LLMs, wi
 - **`arXiv 2026`** Releasing the Inner Jev: A Simple Recipe for Open Decision Models. [[paper](https://arxiv.org/abs/2610.17205v1)]
 - **`EMNLP 2023`** G-Eval: NLG Evaluation using GPT-4 with Better Human Alignment. [[paper](https://aclanthology.org/2023.emnlp-main.153/)]
 - **`arXiv 2022`** Language Models (Mostly) Know What They Know. [[paper](https://arxiv.org/abs/2207.05221)]
-- **`arXiv 2020`** Language Models are Few-Shot Learners. [[paper](https://arxiv.org/abs/2005.14165)]
+- **`NeurIPS 2020`** Language Models are Few-Shot Learners. [[paper](https://proceedings.neurips.cc/paper/2020/hash/1457c0d6bfcb4967418bfb8ac142f64a-Abstract.html)]
 
 <a id="candidate-query-structure"></a>
 
@@ -199,8 +237,8 @@ Architectures that make the comparison between options explicit, isolate candida
 - **`Hugging Face 2026`** d3-turbo. [[model](https://huggingface.co/vllm-sr/d3-turbo)]
 - **`Resource 2026`** Mammoth-1 and Elephant-1: Frontier decision models. [[link](https://labs.baseten.co/articles/mammoth-1-and-elephant-1-frontier-decision-models)]
 - **`ICML 2019`** Set Transformer: A Framework for Attention-based Permutation-Invariant Neural Networks. [[paper](https://proceedings.mlr.press/v97/lee19d.html)]
-- **`arXiv 2017`** Deep Sets. [[paper](https://arxiv.org/abs/1703.06114)]
-- **`arXiv 2015`** Pointer Networks. [[paper](https://arxiv.org/abs/1506.03134)]
+- **`NeurIPS 2017`** Deep Sets. [[paper](https://proceedings.neurips.cc/paper_files/paper/2017/hash/f22e4747da1aa27e363d86d40ff442fe-Abstract.html)]
+- **`NeurIPS 2015`** Pointer Networks. [[paper](https://proceedings.neurips.cc/paper_files/paper/2015/hash/29921001f2f04bd3baee84a12e98098f-Abstract.html)]
 
 <a id="iterative-adaptive-computation"></a>
 
@@ -219,7 +257,7 @@ Mechanisms that control how much processing precedes a judgment, from adaptive c
 - **`Resource 2026`** The GLiDE Family: Decision Models from 0.4B to 27B. [[link](https://fastino.ai/blog/glide-decision-model-family)]
 - **`arXiv 2026`** Extending Reasoning in Typed Decision Models via Looping. [[paper](https://arxiv.org/abs/2611.07736)]
 - **`arXiv 2021`** PonderNet: Learning to Ponder. [[paper](https://arxiv.org/abs/2107.05407v2)]
-- **`arXiv 2018`** Universal Transformers. [[paper](https://arxiv.org/abs/1807.03819v3)]
+- **`ICLR 2019`** Universal Transformers. [[paper](https://openreview.net/forum?id=HyzdRiR9Y7)]
 - **`arXiv 2016`** Adaptive Computation Time for Recurrent Neural Networks. [[paper](https://arxiv.org/abs/1603.08983v6)]
 
 <a id="building-jev-models"></a>
@@ -227,6 +265,11 @@ Mechanisms that control how much processing precedes a judgment, from adaptive c
 ## 🧠 Building Jev Models
 
 A pretrained language model already encodes much of what a judgment needs. Turning it into a Jev-like model requires a **readout** that maps representations to typed decisions, **learning signals** that shape those decisions, and an **inference strategy** that decides how much computation precedes the output.
+
+<p align="center">
+<a href="assets/model_architectures.pdf"><img src="assets/model_architectures.png" width="100%" alt="Representative architectures for decision models."/></a>
+</p>
+<p align="center"><sub><i>Representative architectures for decision models. (a) An LLM scores candidate label tokens through its vocabulary head. (b) An LLM uses a dedicated decision head. (c) An encoder-based model uses a decision head. (d) Separate encoders represent the request and candidate descriptions for similarity scoring. The lower panel illustrates an optional multimodal input configuration.</i></sub></p>
 
 <a id="decision-readout"></a>
 
@@ -244,6 +287,8 @@ Assign each candidate a code and score it with the LM vocabulary head, correctin
 
 A dedicated head scores candidates from backbone hidden states, either jointly encoded or per option.
 
+- **`Hugging Face 2026`** Laya: Official Model Card. [[model](https://huggingface.co/convaiinnovations/laya)]
+- **`Hugging Face 2026`** Kev-4B (Kev 1.0): Official Model Card. [[model](https://huggingface.co/jaredpalmer/kev-4b)]
 - **`arXiv 2026`** Joint or Per-Option? Compact Encoders for Closed-Set Decisions from 17 Million to 1 Billion Parameters. [[paper](https://arxiv.org/abs/2610.30970v1)] [[code](https://github.com/tardellirs/CrivO-decision-encoders)]
 - **`arXiv 2025`** GLiClass: Generalist Lightweight Model for Sequence Classification Tasks. [[paper](https://arxiv.org/abs/2508.07662)]
 
@@ -259,7 +304,7 @@ Whether a candidate's score may depend on the other candidates: isolated scoring
 Reusing cached candidate or evidence encodings across questions, modalities, and between decision and generation.
 
 - **`arXiv 2026`** Dyad: Extending Large Language Models with Native Typed Decision-Making. [[paper](https://arxiv.org/abs/2609.36116)]
-- **`arXiv 2026`** Seeing the Options: Typed Decisions over Visual Candidates with Reusable Option Memory. [[paper](https://arxiv.org/abs/2610.33702v2)]
+- **`arXiv 2026`** Seeing the Options: What Should a Visual Candidate See? [[paper](https://arxiv.org/abs/2610.33702)]
 - **`arXiv 2026`** Verdict: Encode Once, Decide Many. [[paper](https://arxiv.org/abs/2610.20778v1)]
 - **`arXiv 2026`** Visual Jev: Accurate and Efficient Decisions from Shared Visual Context. [[paper](https://arxiv.org/abs/2609.25845v1)] [[code](https://github.com/guanxuyu-sv/Visual-Jev)]
 - **`arXiv 2026`** VideoJev: System One Model for Video Understanding and Interaction. [[paper](https://arxiv.org/abs/2610.18615v1)] [[code](https://github.com/MCG-NJU/VideoJev)]
@@ -271,7 +316,7 @@ Reusing cached candidate or evidence encodings across questions, modalities, and
 - **`arXiv 2026`** UniJev: Separating Accuracy from Calibration in Trimodal System One Decision Models. [[paper](https://arxiv.org/abs/2610.25784v1)]
 - **`arXiv 2026`** System X: An LLM Decision Model That Replies from Its Own KV Cache. [[paper](https://arxiv.org/abs/2610.25456v1)]
 - **`arXiv 2026`** JevRec: Linguistic Encoding with Jev-like Decision Modeling for LLM-based Generative Recommendation. [[paper](https://arxiv.org/abs/2610.36937)]
-- **`arXiv 2026`** Fast-Slow Thinking RM: Efficient Integration of Scalar and Generative Reward Models. [[paper](https://arxiv.org/abs/2603.20212v2)]
+- **`EMNLP 2026`** Fast-Slow Thinking RM: Efficient Integration of Scalar and Generative Reward Models. [[paper](https://aclanthology.org/2026.emnlp-main.1526/)]
 
 <a id="learning-methods"></a>
 
@@ -304,8 +349,8 @@ Gold labels, ordinal targets, soft teacher distributions, counterfactual edits, 
 - **`arXiv 2026`** AudioJev: Direct Audio Decisions with Order-Calibrated Probabilities. [[paper](https://arxiv.org/abs/2610.01293v1)] [[code](https://github.com/SihanLv/AudioJev-Inference)]
 - **`arXiv 2026`** JevAgentHarness: Benchmarking, Deploying and Training Decision Models That Share Control with LLMs. [[paper](https://arxiv.org/abs/2610.21412v1)] [[code](https://github.com/JevAgentHarnesS/JevAgentHarnEsS)]
 - **`arXiv 2024`** Distilling System 2 into System 1. [[paper](https://arxiv.org/abs/2407.06023v3)]
+- **`ICLR 2016`** Policy Distillation. [[paper](https://arxiv.org/abs/1511.06295)]
 - **`arXiv 2015`** Distilling the Knowledge in a Neural Network. [[paper](https://arxiv.org/abs/1503.02531v1)]
-- **`arXiv 2015`** Policy Distillation. [[paper](https://arxiv.org/abs/1511.06295v2)]
 - **`AISTATS 2011`** A Reduction of Imitation Learning and Structured Prediction to No-Regret Online Learning. [[paper](https://proceedings.mlr.press/v15/ross11a.html)]
 
 #### Reasoning Traces
@@ -316,29 +361,29 @@ Distilling explicit or latent reasoning into decision capability, from curriculu
 - **`arXiv 2026`** Tailoring the Curriculum: Student-Centered Reasoning Distillation via Dynamic Data-Model Compatibility. [[paper](https://arxiv.org/abs/2605.29229v1)]
 - **`arXiv 2026`** EKLAV: Elicited Key CoT Learning via Answer only superVision. [[paper](https://arxiv.org/abs/2607.25182v2)]
 - **`arXiv 2026`** Masked Self-Distillation: Internalizing the Chain-of-Thought in Language Models. [[paper](https://arxiv.org/abs/2607.22629v3)]
-- **`arXiv 2026`** Self-Distilled Reasoner: On-Policy Self-Distillation for Large Language Models. [[paper](https://arxiv.org/abs/2601.18734v3)] [[code](https://github.com/siyan-zhao/OPSD)]
+- **`ICML 2026`** Self-Distilled Reasoner: On-Policy Self-Distillation for Large Language Models. [[paper](https://proceedings.mlr.press/v306/zhao26be.html)] [[code](https://github.com/siyan-zhao/OPSD)]
 - **`arXiv 2026`** Backtracking When It Strays: Mitigating Dual Exposure Biases in LLM Reasoning Distillation. [[paper](https://arxiv.org/abs/2605.19433v1)] [[code](https://github.com/wangbing1416/MOTAB)]
-- **`arXiv 2026`** LaSER: Internalizing Explicit Reasoning into Latent Space for Dense Retrieval. [[paper](https://arxiv.org/abs/2603.01425v1)] [[code](https://github.com/RUC-NLPIR/LaSER)]
-- **`arXiv 2026`** TInR: Exploring Tool-Internalized Reasoning in Large Language Models. [[paper](https://arxiv.org/abs/2604.10788v2)]
+- **`SIGIR 2026`** Internalizing Explicit Reasoning into Latent Space for Dense Retrieval. [[paper](https://doi.org/10.1145/3805712.3809575)] [[code](https://github.com/RUC-NLPIR/LaSER)]
+- **`ACL 2026`** TInR: Exploring Tool-Internalized Reasoning in Large Language Models. [[paper](https://aclanthology.org/2026.acl-long.2077/)]
 - **`arXiv 2026`** Internalizing LLM Reasoning via Discovery and Replay of Latent Actions. [[paper](https://arxiv.org/abs/2602.04925v1)] [[code](https://github.com/sZnnzs/LLM-Latent-Action)]
-- **`arXiv 2025`** CODI: Compressing Chain-of-Thought into Continuous Space via Self-Distillation. [[paper](https://arxiv.org/abs/2502.21074v3)] [[code](https://github.com/zhenyi4/codi)]
+- **`EMNLP 2025`** CODI: Compressing Chain-of-Thought into Continuous Space via Self-Distillation. [[paper](https://aclanthology.org/2025.emnlp-main.36/)] [[code](https://github.com/zhenyi4/codi)]
 - **`arXiv 2024`** From Explicit CoT to Implicit CoT: Learning to Internalize CoT Step by Step. [[paper](https://arxiv.org/abs/2405.14838v1)] [[code](https://github.com/da03/Internalize_CoT_Step_by_Step)]
 - **`EMNLP 2024`** Teaching Small Language Models Reasoning through Counterfactual Distillation. [[paper](https://aclanthology.org/2024.emnlp-main.333/)]
-- **`arXiv 2023`** Distilling Step-by-Step! Outperforming Larger Language Models with Less Training Data and Smaller Model Sizes. [[paper](https://arxiv.org/abs/2305.02301v2)] [[code](https://github.com/google-research/distilling-step-by-step)]
+- **`ACL Findings 2023`** Distilling Step-by-Step! Outperforming Larger Language Models with Less Training Data and Smaller Model Sizes. [[paper](https://aclanthology.org/2023.findings-acl.507/)] [[code](https://github.com/google-research/distilling-step-by-step)]
+- **`ACL 2023`** Large Language Models Are Reasoning Teachers. [[paper](https://aclanthology.org/2023.acl-long.830/)]
+- **`ACL Findings 2023`** Distilling Reasoning Capabilities into Smaller Language Models. [[paper](https://aclanthology.org/2023.findings-acl.441/)]
 - **`arXiv 2023`** Implicit Chain of Thought Reasoning via Knowledge Distillation. [[paper](https://arxiv.org/abs/2311.01460v1)]
-- **`arXiv 2022`** Large Language Models Are Reasoning Teachers. [[paper](https://arxiv.org/abs/2212.10071v2)]
-- **`arXiv 2022`** Distilling Reasoning Capabilities into Smaller Language Models. [[paper](https://arxiv.org/abs/2212.00193v2)]
 
 #### Task Feedback
 
 Using decision quality as a reward for reasoning, and decision signals as supervision for other learners.
 
-- **`arXiv 2026`** OpenJev-RLCD: A Working RLCD Implementation. [[paper](https://arxiv.org/abs/2609.38850v1)] [[code](https://github.com/ZimmyGao/openjev-rlcd)]
+- **`arXiv 2026`** Beyond Outcome Rewards: Post-Rationale Distribution Optimization for Selective Prediction in Reasoning Models. [[paper](https://arxiv.org/abs/2609.38850)] [[code](https://github.com/ZimmyGao/openjev-rlcd)]
 - **`arXiv 2026`** StartLux-Decision: AutoThink Decision Models with Reinforcement Learning for Calibrated Deliberative Decisions. [[paper](https://arxiv.org/abs/2610.17309v2)] [[code](https://github.com/StartLuxLabs/StartLux-Prism)]
 - **`arXiv 2026`** Can Jev be Your Q or Policy in Reinforcement Learning? [[paper](https://arxiv.org/abs/2610.11692v1)]
 - **`arXiv 2026`** From Probabilities to Decisions: Search and Multi-Teacher Distillation with Jev. [[paper](https://arxiv.org/abs/2610.09188v1)]
-- **`arXiv 2023`** Let's Verify Step by Step. [[paper](https://arxiv.org/abs/2305.20050v1)]
-- **`arXiv 2017`** Thinking Fast and Slow with Deep Learning and Tree Search. [[paper](https://arxiv.org/abs/1705.08439v4)]
+- **`ICLR 2024`** Let's Verify Step by Step. [[paper](https://proceedings.iclr.cc/paper_files/paper/2024/hash/aca97732e30bcf1303bc22ac3924fd16-Abstract-Conference.html)]
+- **`NeurIPS 2017`** Thinking Fast and Slow with Deep Learning and Tree Search. [[paper](https://proceedings.neurips.cc/paper/2017/hash/d8e1344e27a5b08cdfd5d027d9b8d6de-Abstract.html)]
 
 <a id="inference-strategies"></a>
 
@@ -346,12 +391,25 @@ Using decision quality as a reward for reasoning, and decision signals as superv
 
 After encoding a request, a model can read out a decision directly, follow a preset reasoning procedure, or adapt its computation before or during reasoning.
 
+<table>
+<tr>
+<td width="42%" valign="middle">
+<a href="assets/inference_strategies.pdf"><img src="assets/inference_strategies.png" width="100%" alt="Four inference strategies for Jev-style decision making."/></a>
+</td>
+<td width="58%" valign="middle">
+
 | Strategy | Extra reasoning | When computation adapts |
 | :--- | :--- | :--- |
-| Direct judgment | None | Never |
-| Fixed reasoning | Preset tokens or latent loops | Never |
-| Adaptive planning | Chosen per request | Before reasoning starts |
-| Adaptive control | Extended or stopped on the fly | During reasoning |
+| (a) Direct judgment | None | Never |
+| (b) Fixed reasoning | Preset tokens or latent loops | Never |
+| (c) Adaptive planning | Chosen per request | Before reasoning starts |
+| (d) Adaptive control | Extended or stopped on the fly | During reasoning |
+
+</td>
+</tr>
+</table>
+
+<p align="center"><sub><i>Four inference strategies for Jev-style decision making, distinguished by the use of extra reasoning and the point at which computation can adapt.</i></sub></p>
 
 #### Direct Judgment
 
@@ -362,16 +420,16 @@ After encoding a request, a model can read out a decision directly, follow a pre
 - **`arXiv 2026`** LLM-as-Jev: LLMs Are Already Jev-Style Decision Models – When and How to Fine-Tune Them. [[paper](https://arxiv.org/abs/2610.02076v3)]
 - **`arXiv 2026`** INTACT: Inducing Latent Reasoning on a Frozen Backbone. [[paper](https://arxiv.org/abs/2610.19568v1)]
 - **`arXiv 2026`** SanSi: A Looped Typed Decision Model for System 1.5 Thinking. [[paper](https://arxiv.org/abs/2610.07730v2)]
-- **`arXiv 2025`** SoftCoT: Soft Chain-of-Thought for Efficient Reasoning with LLMs. [[paper](https://arxiv.org/abs/2502.12134v2)] [[code](https://github.com/xuyige/SoftCoT)]
-- **`arXiv 2025`** Scaling up Test-Time Compute with Latent Reasoning: A Recurrent Depth Approach. [[paper](https://arxiv.org/abs/2502.05171v2)]
-- **`arXiv 2024`** Training Large Language Models to Reason in a Continuous Latent Space. [[paper](https://arxiv.org/abs/2412.06769v4)] [[code](https://github.com/facebookresearch/coconut)]
+- **`ACL 2025`** SoftCoT: Soft Chain-of-Thought for Efficient Reasoning with LLMs. [[paper](https://aclanthology.org/2025.acl-long.1137/)] [[code](https://github.com/xuyige/SoftCoT)]
+- **`COLM 2025`** Training Large Language Models to Reason in a Continuous Latent Space. [[paper](https://proceedings.colm.cc/paper_files/paper/2025/hash/ed032b08a8822c3635cdcd961012ce60-Abstract-Conference.html)] [[code](https://github.com/facebookresearch/coconut)]
+- **`NeurIPS 2025`** Scaling up Test-Time Compute with Latent Reasoning: A Recurrent Depth Approach. [[paper](https://proceedings.neurips.cc/paper_files/paper/2025/hash/3b01972cf31e6fa0fe29e4b8b5c2a0a1-Abstract-Conference.html)]
 
 #### Adaptive Planning Before Reasoning
 
 - **`arXiv 2026`** StartLux-Decision: AutoThink Decision Models with Reinforcement Learning for Calibrated Deliberative Decisions. [[paper](https://arxiv.org/abs/2610.17309v2)] [[code](https://github.com/StartLuxLabs/StartLux-Prism)]
-- **`arXiv 2026`** System 1&2 Synergy via Dynamic Model Interpolation. [[paper](https://arxiv.org/abs/2601.21414v1)]
-- **`arXiv 2024`** Distilling Reasoning Ability from Large Language Models with Adaptive Thinking. [[paper](https://arxiv.org/abs/2404.09170v6)]
-- **`arXiv 2024`** Scaling LLM Test-Time Compute Optimally can be More Effective than Scaling Model Parameters. [[paper](https://arxiv.org/abs/2408.03314v1)]
+- **`Resource 2026`** System 1&2 Synergy via Dynamic Model Interpolation. [[paper](https://www.ijcai.org/proceedings/2026/668)]
+- **`TNNLS 2025`** Distilling Reasoning Ability from Large Language Models with Adaptive Thinking. [[paper](https://doi.org/10.1109/TNNLS.2025.3591266)]
+- **`ICLR 2025`** Scaling LLM Test-Time Compute Optimally Can be More Effective than Scaling Parameters for Reasoning. [[paper](https://proceedings.iclr.cc/paper_files/paper/2025/hash/1b623663fd9b874366f3ce019fdfdd44-Abstract-Conference.html)]
 
 #### Adaptive Control During Reasoning
 
@@ -382,21 +440,48 @@ After encoding a request, a model can read out a decision directly, follow a pre
 - **`arXiv 2026`** Judges Follow the Reference: The Derivation Gap in Verifying Tool-Call Arguments. [[paper](https://arxiv.org/abs/2610.18497v1)]
 - **`arXiv 2026`** Code Owns the Simulation, Jev Owns the Evaluation. [[paper](https://arxiv.org/abs/2610.01834v2)]
 
+<a id="representative-models"></a>
+
+### Representative Models
+
+Backbones and adaptation strategies of representative Jev and Jev-like models, taken from the survey. Architecture lists a main class and its mechanism; modality refers to the reviewed decision configuration.
+
+| Model / Method | Backbone | Modality | Architecture | Readout | Training | Tuned | Inference |
+| :--- | :--- | :---: | :--- | :--- | :--- | :--- | :---: |
+| ***Hosted reference*** | | | | | | | |
+| [Jev](https://docs.typesafe.ai/introduction) | Closed-source model | <img src="https://img.shields.io/badge/M-7D5E9E?style=flat-square" alt="M" title="Multimodal"/> | – | – | – | – | – |
+| ***Vocabulary readouts and shared prediction slots*** | | | | | | | |
+| [LLM-as-Jev](https://arxiv.org/abs/2610.02076v3) | Qwen3.5 / Qwen3 | <img src="https://img.shields.io/badge/T-388073?style=flat-square" alt="T" title="Text-only"/> | **LLM + vocabulary head**<br><sub>Scores candidate codes.</sub> | Token likelihoods | None | Frozen | <img src="https://img.shields.io/badge/D-386394?style=flat-square" alt="D" title="Direct judgment"/> <img src="https://img.shields.io/badge/F-388073?style=flat-square" alt="F" title="Fixed reasoning"/> |
+| [AnyJev](https://arxiv.org/abs/2610.00831v1) | Qwen3 / Qwen2.5 | <img src="https://img.shields.io/badge/T-388073?style=flat-square" alt="T" title="Text-only"/> | **LLM + vocabulary head**<br><sub>Corrects label and order effects.</sub> | Token scores | Calibration | Temp. | <img src="https://img.shields.io/badge/D-386394?style=flat-square" alt="D" title="Direct judgment"/> |
+| [Releasing the Inner Jev](https://arxiv.org/abs/2610.17205v1) | Gemma 4 Instruct | <img src="https://img.shields.io/badge/T-388073?style=flat-square" alt="T" title="Text-only"/> | **LLM + vocabulary head**<br><sub>Corrects answer-letter logits.</sub> | Token logits | SFT | LoRA + Head | <img src="https://img.shields.io/badge/D-386394?style=flat-square" alt="D" title="Direct judgment"/> |
+| [Intern-Decision](https://arxiv.org/abs/2610.22131v1) | Qwen3.5 | <img src="https://img.shields.io/badge/M-7D5E9E?style=flat-square" alt="M" title="Multimodal"/> | **LLM + vocabulary head**<br><sub>Uses JSON prediction slots.</sub> | Token logits | SFT | –¹ | <img src="https://img.shields.io/badge/D-386394?style=flat-square" alt="D" title="Direct judgment"/> |
+| ***Dedicated scorers and separate representations*** | | | | | | | |
+| [Laya](https://huggingface.co/convaiinnovations/laya) | ModernBERT | <img src="https://img.shields.io/badge/T-388073?style=flat-square" alt="T" title="Text-only"/> | **Encoder + decision head**<br><sub>Adds two transformer head layers.</sub> | Head scores | RLCD | Full | <img src="https://img.shields.io/badge/D-386394?style=flat-square" alt="D" title="Direct judgment"/> |
+| [Kev-4B](https://huggingface.co/jaredpalmer/kev-4b) | Qwen3.5 Base | <img src="https://img.shields.io/badge/T-388073?style=flat-square" alt="T" title="Text-only"/> | **LLM + decision head**<br><sub>Compares question and option states.</sub> | Similarity | SFT | LoRA + Head | <img src="https://img.shields.io/badge/D-386394?style=flat-square" alt="D" title="Direct judgment"/> |
+| [GLiClass](https://arxiv.org/abs/2508.07662) | DeBERTa-v3 | <img src="https://img.shields.io/badge/T-388073?style=flat-square" alt="T" title="Text-only"/> | **Encoder + decision head**<br><sub>Encodes text and labels jointly.</sub> | Similarity / MLP | Staged | LoRA² | <img src="https://img.shields.io/badge/D-386394?style=flat-square" alt="D" title="Direct judgment"/> |
+| [Jeva](https://arxiv.org/abs/2610.18773v2) | Qwen3.5 | <img src="https://img.shields.io/badge/T-388073?style=flat-square" alt="T" title="Text-only"/> | **Separate encoders**<br><sub>Encodes request and options separately.</sub> | Set-conditioned scores | SFT | LoRA + Head | <img src="https://img.shields.io/badge/D-386394?style=flat-square" alt="D" title="Direct judgment"/> |
+| ***Recurrent, adaptive, and visual computation*** | | | | | | | |
+| [SanSi](https://arxiv.org/abs/2610.07730v2) | Ouro Base | <img src="https://img.shields.io/badge/T-388073?style=flat-square" alt="T" title="Text-only"/> | **Recurrent LM**<br><sub>Scores candidates after each loop.</sub> | Token logits | SFT | LoRA + Head | <img src="https://img.shields.io/badge/C-9E7540?style=flat-square" alt="C" title="Adaptive control during reasoning"/> |
+| [StartLux-Decision](https://arxiv.org/abs/2610.17309v2) | Qwen3.5 family† | <img src="https://img.shields.io/badge/T-388073?style=flat-square" alt="T" title="Text-only"/> | **LLM + vocabulary head**<br><sub>Combines initial and reasoned predictions.</sub> | Token probabilities | SFT → RL | – | <img src="https://img.shields.io/badge/B-7D5E9E?style=flat-square" alt="B" title="Adaptive planning before reasoning"/> |
+| [Visual Jev](https://arxiv.org/abs/2609.25845v1) | Qwen3-VL Instruct | <img src="https://img.shields.io/badge/M-7D5E9E?style=flat-square" alt="M" title="Multimodal"/> | **LLM + vocabulary head**<br><sub>Shares visual context; isolates questions.</sub> | Token probabilities | SFT | LoRA | <img src="https://img.shields.io/badge/D-386394?style=flat-square" alt="D" title="Direct judgment"/> |
+
+<sub>**Modality**: <img src="https://img.shields.io/badge/T-388073?style=flat-square" alt="T" title="Text-only"/> text-only; <img src="https://img.shields.io/badge/M-7D5E9E?style=flat-square" alt="M" title="Multimodal"/> multimodal. **Inference**: <img src="https://img.shields.io/badge/D-386394?style=flat-square" alt="D" title="Direct judgment"/> direct judgment; <img src="https://img.shields.io/badge/F-388073?style=flat-square" alt="F" title="Fixed reasoning"/> fixed reasoning; <img src="https://img.shields.io/badge/B-7D5E9E?style=flat-square" alt="B" title="Adaptive planning before reasoning"/> adaptive planning before reasoning; <img src="https://img.shields.io/badge/C-9E7540?style=flat-square" alt="C" title="Adaptive control during reasoning"/> adaptive control during reasoning.<br>**Training**: SFT supervised fine-tuning; RL reinforcement learning; RLCD reinforcement learning for calibrated decisions. **Tuned**: Full full-parameter; LoRA low-rank adapters; Head decision/readout head; Frozen no updates; Temp. output temperature only; – scope not stated.<br>¹ Intern-Decision tunes the language backbone without specifying full or parameter-efficient tuning. ² GLiClass uses staged encoder/scorer training followed by LoRA. † The released 4B configuration uses the Qwen3.5 architecture; the initial checkpoint is not specified.</sub>
+
+<a id="advantages-and-limitations"></a>
+
 <a id="reliability-and-limitations"></a>
 
-### Reliability and Limitations
+### Advantages and Limitations
 
-Direct readouts save tokens and allow reuse, but accuracy alone does not make a decision reliable. Normalized `Choice` probabilities can miss multiple valid answers and still pick from a list that contains no acceptable option; ordinal scales can collapse onto a few levels; confidence thresholds may not transfer across languages, tasks, or candidate settings; and judgments are only as good as the supplied evidence. Calibration, selective prediction, and robustness to candidate order, wording, and set composition are therefore evaluated separately.
+| | Summary |
+| :--- | :--- |
+| ⚡ **Computational cost** | Returning a judgment without an extended response cuts output tokens, and shared context encoding or cached candidates avoid repeated work. Savings depend on architecture and workload; extra reasoning and repeated judgments add overhead, so a faster single decision does not always make the whole workflow faster. |
+| 🎯 **Judgment quality and reliability** | Every judgment is made inside a specified answer space. `Choice` must distribute mass even when several or no candidates are correct; `Score` can collapse onto a few levels. Order, labels, and candidate composition can shift predictions; confidence thresholds may not transfer across tasks or locales; and missing evidence can produce confident but unsupported decisions. |
+| 🧭 **Suitable uses** | Frequent, bounded judgments with sufficient evidence and suitable candidates, such as classification, ranking, verification, and action selection. When options are incomplete, evidence is missing, or further reasoning is needed, a generative model or another component should construct alternatives, acquire information, or reason first. |
 
 - **`arXiv 2026`** When Multiple Choices Are Correct: Asymmetric Probability Allocation in Jev and Other Decision Models. [[paper](https://arxiv.org/abs/2610.29217v1)]
-- **`arXiv 2026`** More Choices, Fewer Decisions: Ordinal-Scale Bias in JEV-like Direct-Decision Models. [[paper](https://arxiv.org/abs/2609.38827v2)]
 - **`arXiv 2026`** When the Right Answer Is Missing: An Arithmetic-Dependent Rejection Bottleneck in Jev. [[paper](https://arxiv.org/abs/2609.39496v1)]
-- **`arXiv 2026`** Benchmarking candidate coverage and rejection policy transfer in typed decision models. [[paper](https://arxiv.org/abs/2610.03387v2)] [[code](https://github.com/luckykevvv/Decision_Model_Benchmark)]
-- **`arXiv 2026`** Laya as a Typed Probabilistic Assessor: An Independent Reproduction and a Preregistered Study of Calibration and Selective Escalation. [[paper](https://arxiv.org/abs/2609.33843)]
-- **`arXiv 2026`** Calibration and Risk-Budgeted Decisions with System One Models. [[paper](https://arxiv.org/abs/2610.19811v1)]
-- **`arXiv 2026`** Confidence Is Not a Promise: A Reference Audit of Typed Decision Models. [[paper](https://arxiv.org/abs/2610.36311v1)]
-- **`arXiv 2026`** Teacher Supervision, Fixed Representations and Calibration: Exact Risk Calculations for Candidate-Scoring Decision Models. [[paper](https://arxiv.org/abs/2610.26797v1)]
-- **`arXiv 2026`** UniJev: Separating Accuracy from Calibration in Trimodal System One Decision Models. [[paper](https://arxiv.org/abs/2610.25784v1)]
+- **`arXiv 2026`** More Choices, Fewer Decisions: Ordinal-Scale Bias in JEV-like Direct-Decision Models. [[paper](https://arxiv.org/abs/2609.38827v2)]
 - **`arXiv 2026`** Understanding Jev-Style System One Models: Does Structure Reduce Selection Bias? [[paper](https://arxiv.org/abs/2610.35826v2)]
 - **`arXiv 2026`** Labels Override Definitions in Jev-Style Typed Decision Models. [[paper](https://arxiv.org/abs/2610.02586v1)]
 - **`arXiv 2026`** Does a Hosted Decision Model Respect Irrelevant Alternatives? A Pre-Registered Test of Option-Set Dependence in Jev. [[paper](https://arxiv.org/abs/2610.16655v1)]
@@ -404,17 +489,19 @@ Direct readouts save tokens and allow reuse, but accuracy alone does not make a 
 - **`arXiv 2026`** Beyond Calibration: Do a Typed-Decision Model's Probabilities Obey the Probability Axioms? [[paper](https://arxiv.org/abs/2609.33209v1)] [[code](https://github.com/bro789/typed-decision-coherence)]
 - **`arXiv 2026`** Jev thinks "I don't know'', but doesn't say it: Introducing Sys1Cal-v1 Dataset for Probability Calibration. [[paper](https://arxiv.org/abs/2609.35342v1)] [[code](https://github.com/little-g-ai/Sys1Cal-v1)]
 - **`arXiv 2026`** Probability Contracts: Accuracy, Coherence, and Decisions Across LLM Interfaces. [[paper](https://arxiv.org/abs/2609.37470v2)]
+- **`arXiv 2026`** Benchmarking candidate coverage and rejection policy transfer in typed decision models. [[paper](https://arxiv.org/abs/2610.03387v2)] [[code](https://github.com/luckykevvv/Decision_Model_Benchmark)]
+- **`arXiv 2026`** Confidence Is Not a Promise: A Reference Audit of Typed Decision Models. [[paper](https://arxiv.org/abs/2610.36311v1)]
+- **`arXiv 2026`** Teacher Supervision, Fixed Representations and Calibration: Exact Risk Calculations for Candidate-Scoring Decision Models. [[paper](https://arxiv.org/abs/2610.26797v1)]
+- **`arXiv 2026`** UniJev: Separating Accuracy from Calibration in Trimodal System One Decision Models. [[paper](https://arxiv.org/abs/2610.25784v1)]
+- **`arXiv 2026`** SHIFT-JEV: Certified Abstention and Gain-Gated Continual Adaptation for LLM-Based Decision Models under Distribution Shift. [[paper](https://arxiv.org/abs/2610.34329v1)]
 - **`arXiv 2026`** Beyond Answer Confidence: A Controlled Audit of Self-Knowledge in a Black-Box Decision Model. [[paper](https://arxiv.org/abs/2610.01006v1)] [[code](https://github.com/Syntheme/beyond-answer-confidence)]
 - **`arXiv 2026`** Can JEV Support Clinical Trial Criteria Assessment? [[paper](https://arxiv.org/abs/2610.35721v1)]
 - **`arXiv 2026`** What Can't Jev Decide? Probing the Limits of One-Pass Decision Models. [[paper](https://arxiv.org/abs/2610.24929v1)]
 - **`arXiv 2026`** Judges Follow the Reference: The Derivation Gap in Verifying Tool-Call Arguments. [[paper](https://arxiv.org/abs/2610.18497v1)]
-- **`arXiv 2026`** SHIFT-JEV: Certified Abstention and Gain-Gated Continual Adaptation for LLM-Based Decision Models under Distribution Shift. [[paper](https://arxiv.org/abs/2610.34329v1)]
 - **`arXiv 2026`** JevAdvBench: A Benchmark and Black-Box Attacks for Reinforcement Learning for Calibrated Decisions Models. [[paper](https://arxiv.org/abs/2609.31142v2)] [[code](https://github.com/JevAdvBench/JevAdvBench)]
 - **`arXiv 2026`** JevOut: Natural Context Can Flip Decision Models. [[paper](https://arxiv.org/abs/2609.30243v2)] [[code](https://github.com/XZX34/JevOut)]
-- **`arXiv 2021`** Learn then Test: Calibrating Predictive Algorithms to Achieve Risk Control. [[paper](https://arxiv.org/abs/2110.01052v5)]
-- **`arXiv 2017`** On Calibration of Modern Neural Networks. [[paper](https://arxiv.org/abs/1706.04599v2)]
-- **`arXiv 2017`** Selective Classification for Deep Neural Networks. [[paper](https://arxiv.org/abs/1705.08500v2)]
-- **`JASA 2007`** Strictly Proper Scoring Rules, Prediction, and Estimation. [[paper](https://doi.org/10.1198/016214506000001437)]
+- **`ICML 2017`** On Calibration of Modern Neural Networks. [[paper](https://proceedings.mlr.press/v70/guo17a.html)]
+- **`NeurIPS 2017`** Selective Classification for Deep Neural Networks. [[paper](https://proceedings.neurips.cc/paper/2017/hash/4a8423d5e91fda00bb7e46540e2b0cf1-Abstract.html)]
 
 <a id="datasets-and-benchmarks"></a>
 
@@ -529,29 +616,65 @@ Within-study comparisons point to four recurring findings; heterogeneous tasks a
 | [FunDM](https://arxiv.org/abs/2610.17175v1) | 24-layer readout vs. full 36-layer Qwen3-8B; eight benchmarks. | Mean accuracy: 75.0% (+1 head layer) vs. 75.7%. MMLU-Pro BF16 vLLM throughput: 1.56× teacher (16 active sequences). |
 | [Verdict](https://arxiv.org/abs/2610.20778v1) | Five packed vs. separate questions; same weights, BF16, typed-decisions test. | Per-case latency speedup: 1.3–1.8× (batch 1), 2.7–2.8× (batch 8), across base/large models. |
 | [SanSi](https://arxiv.org/abs/2610.07730v2) | Ouro-1.4B one-loop baseline vs. SanSi at three/eight loops; 10,027 test items, three seeds. | Mean accuracy: 58.6% / 70.4% / 72.0%. Eight-loop test-set GPU time: 7.7× baseline (RTX A6000). |
-| [Iris](https://arxiv.org/abs/2610.33702v2) | Independent vs. state-conditioned Iris-4B; Mind2Web cross-task split, 16 crops. | First-choice accuracy: 78.38% vs. 89.60%; OneJev-4B retrained on the same crop steps: 90.58%. Conditioning prevents cross-request reuse. |
+| [Iris](https://arxiv.org/abs/2610.33702) | Independent vs. state-conditioned Iris-4B; Mind2Web cross-task split, 16 crops. | First-choice accuracy: 78.38% vs. 89.60%; OneJev-4B retrained on the same crop steps: 90.58%. Conditioning prevents cross-request reuse. |
 | [Clinical criteria](https://arxiv.org/abs/2610.35721v1) | Jev 1.14 Single vs. Batch; TrialGPT test, 774 criteria. | Median complete-job latency: 8.08 → 1.20 s; macro-F1: 0.646 → 0.652. |
 | ***Decision reliability*** | | |
 | [Broad evaluation](https://arxiv.org/abs/2609.37647v1) | Pooled vs. dataset-level ECE; 279,925 answers, 22 Choice datasets, 15 bins. | Pooled ECE: 0.028; unweighted mean dataset ECE: 0.061. |
-| [OpenJev-RLCD](https://arxiv.org/abs/2609.38850v1) | Two-stage RLCD vs. GRPO+KL; Qwen3-1.7B, 1,260 GSM8K-Verify items; dev-fitted temperature scaling. | Accuracy: (92.2±0.7)% vs. (91.8±0.6)%. Coverage at empirical error ≤5%: (81.1±7.2)% vs. (19.4±7.3)% (three-seed mean ± s.d.). |
+| [OpenJev-RLCD](https://arxiv.org/abs/2609.38850) | Two-stage RLCD vs. GRPO+KL; Qwen3-1.7B, 1,260 GSM8K-Verify items; dev-fitted temperature scaling. | Accuracy: (92.2±0.7)% vs. (91.8±0.6)%. Coverage at empirical error ≤5%: (81.1±7.2)% vs. (19.4±7.3)% (three-seed mean ± s.d.). |
 | ***Candidate coverage and supplied evidence*** | | |
 | [Missing answers](https://arxiv.org/abs/2609.39496v1) | 100 paired arithmetic cases, explicit rejection; threshold fitted on 20 separate cases. | Answer-present accuracy / answer-absent rejection: 99% / 7% by default, 97% / 79% with thresholding. |
 | [Simulation](https://arxiv.org/abs/2610.01834v2) | 134 unseen ALFWorld games, 50-step limit; no lookahead vs. cloned-game observations and new commands. | Completion: 42/134 → 116/134 with lookahead (first run). |
 | ***System-level utility*** | | |
 | [System1-Arena](https://arxiv.org/abs/2610.21244v1) | Decision-2.0-Vega-27B / Jev 1.13 / Qwen3.5-9B; agent-category tests. | Static agent-category accuracy: 67.8% each; closed-loop completion: 26.5% / 17.4% / 5.7%. |
 | [JevAgentHarness](https://arxiv.org/abs/2610.21412v1) | Full tool replacement or fitted delegation vs. Gemini 3.5 Flash; 500 DecisionGym tasks. | Full replacement: -19.0 pp success. Fitted tool/argument delegation: 14.2% net cost saving; unchanged observed task outcomes. |
-| [SearchJev](https://arxiv.org/abs/2610.05107v1) | SearchJev-0.8B + Qwen3.5-27B vs. System 2 alone; 100 BrowseComp-Plus questions, one run each. | Median active time (model calls + retrieval): 4,080 → 868 s; accuracy: 45% → 46%. |
+| [SearchJev](https://arxiv.org/abs/2610.05107) | SearchJev-0.8B + Qwen3.5-27B vs. System 2 alone; 100 BrowseComp-Plus questions, one run each. | Median active time (model calls + retrieval): 4,080 → 868 s; accuracy: 45% → 46%. |
 | [Coding control](https://arxiv.org/abs/2610.24649v1) | Jev vs. no controller; Sonnet 5.5, Terminal-Bench 2.1; 21 held-out tasks, three repetitions/arm. | Pass rate: 73.0% each; no detectable difference. Geometric-mean USD/attempt ratio: 1.19 (95% CI: 1.02–1.36). |
 
 </div>
 
 <sub>Representative within-study comparisons; conditions and cost measures differ across studies, so numbers are not comparable across rows. pp: percentage points; ECE: expected calibration error; CI: confidence interval.</sub>
 
+<a id="evaluation-gaps"></a>
+
+### Evaluation Limitations and Gaps
+
+The findings above leave three questions unresolved:
+
+- **Quality–cost comparability.** Gains should survive matched quality and complete cost accounting. For a sequential cascade, $\mathbb{E}[C_{\mathrm{total}}]=\mathbb{E}[C_f+C_{\mathrm{ctrl}}+I_{\mathrm{esc}}C_s+C_{\mathrm{exec}}]$; omitting one pre-screening call, for example, shrinks a reported saving from 23.9% to 4.3%.
+- **Reliability and validation.** Thresholds and delegation rules need evaluation on data independent of their fitting; calibration, empirical selective risk, and statistically controlled risk are distinct claims, and risk must be reported with coverage.
+- **Mechanism and transfer.** Explanations can omit features that drive the answer, and shorter training traces do not necessarily reduce inference cost; matched budgets, supervision, and evidence are needed to attribute gains to the reasoning mechanism.
+
+- **`arXiv 2026`** Fast Models, Slow Evidence: A Paired and Self-Audited Evaluation of System-1 Decision Models for LLM Agent Harnesses. [[paper](https://arxiv.org/abs/2610.02267v1)]
+- **`SIGKDD Explor. 2026`** A Survey on Jev: Prior Research, Adaptation Costs, and Evidence of System One Models. [[link](https://evan-py-chen.github.io/jev-survey/)]
+- **`arXiv 2026`** Truncated Reasoning Under a Budget: Evaluating System-1 Models as Decision-makers. [[paper](https://arxiv.org/abs/2610.25768v2)]
+- **`arXiv 2026`** SOMA: Continuous Monitoring and Intervention for System Two Reasoning with System One Models. [[paper](https://arxiv.org/abs/2610.26793v1)]
+- **`arXiv 2026`** SHIFT-JEV: Certified Abstention and Gain-Gated Continual Adaptation for LLM-Based Decision Models under Distribution Shift. [[paper](https://arxiv.org/abs/2610.34329v1)]
+- **`arXiv 2026`** REFLEX with Jev for Efficient Selective Control in LLM Agents. [[paper](https://arxiv.org/abs/2609.26532v1)]
+- **`arXiv 2026`** Good Judgment, Bad Advice: Decision-Model Controllers Raise Agent Cost Without Improving Success. [[paper](https://arxiv.org/abs/2610.24649v1)] [[code](https://github.com/namanvats/decision-model-controllers)]
+- **`ICML 2026`** Dynamics Within Latent Chain-of-Thought: An Empirical Study of Causal Structure. [[paper](https://proceedings.mlr.press/v306/li26c.html)]
+- **`EMNLP Findings 2026`** Think Wider: Mitigating Latent Rank Collapse in Implicit Chain-of-Thought Reasoning. [[paper](https://aclanthology.org/2026.findings-emnlp.1773/)] [[code](https://github.com/whitesweater/WIDER)]
+- **`EMNLP 2026`** When Compression Helps and When It Hurts: Condition-Aware Analysis of Chain-of-Thought Distillation. [[paper](https://aclanthology.org/2026.emnlp-main.1543/)]
+- **`arXiv 2026`** Learning through Internalization. [[paper](https://arxiv.org/abs/2606.20937v1)]
+- **`NeurIPS 2023`** Language Models Don't Always Say What They Think: Unfaithful Explanations in Chain-of-Thought Prompting. [[paper](https://proceedings.neurips.cc/paper_files/paper/2023/hash/ed3fea9033a80fea1376299fa7863f4a-Abstract-Conference.html)]
+- **`arXiv 2023`** Measuring Faithfulness in Chain-of-Thought Reasoning. [[paper](https://arxiv.org/abs/2307.13702v1)]
+
 <a id="agentic-workflows"></a>
 
 ## 🤖 Jev in Agentic Workflows
 
 Inside an agent, typed judgments decide which evidence reaches the reasoner, how much computation to spend, whether a result is acceptable, and which action to take next. Coordinated systems additionally have to hand over control between fast and slow components, keep shared task state consistent, and check whether pending results are still valid.
+
+<p align="center">
+<a href="assets/decision_guided_workflow.pdf"><img src="assets/decision_guided_workflow.png" width="100%" alt="Decision-guided workflow for placing the blue cup on the plate."/></a>
+</p>
+<p align="center"><sub><i>Decision-guided workflow. Given an instruction to place the blue cup on the plate, the system (a) observes the scene and checks the available objects, (b) constructs candidate actions and filters them by feasibility, (c) selects the option that best matches the instruction, (d) reviews and executes the action, and (e) verifies the outcome against the goal to decide whether the task is complete or needs another attempt.</i></sub></p>
+
+The taxonomy below maps the works collected in this section onto workflow roles and domains (§5.1), runtime coordination (§5.2), and system self-improvement (§5.3).
+
+<p align="center">
+<a href="assets/agentic_taxonomy.pdf"><img src="assets/agentic_taxonomy.png" width="100%" alt="Taxonomy of Jev in agentic workflows and coordinated systems."/></a>
+</p>
+<p align="center"><sub><i>Taxonomy of Jev in agentic workflows and coordinated systems. Workflow components cover information and memory selection, computation and reasoning control, verification and review, and action selection, together with domain-specific applications. Runtime coordination covers scheduling and task updates and reuse. Decision-guided self-improvement distinguishes feedback-driven system improvement from improving the improver. A study may appear in multiple branches when it supports distinct mechanisms.</i></sub></p>
 
 <a id="information-and-memory-selection"></a>
 
@@ -566,10 +689,10 @@ Inside an agent, typed judgments decide which evidence reaches the reasoner, how
 
 #### Retrieval Routing and Candidate Selection
 
-- **`arXiv 2026`** SearchJev: A Fast and Calibrated System-1 Model for Search Agents. [[paper](https://arxiv.org/abs/2610.05107v1)] [[code](https://github.com/EvoScientist/SearchJev)]
+- **`arXiv 2026`** SearchJev: A Calibrated System-1 Model for Search Agents. [[paper](https://arxiv.org/abs/2610.05107)] [[code](https://github.com/EvoScientist/SearchJev)]
 - **`arXiv 2026`** Probabilistic Relevance Decisions for Semantic Retrieval. [[paper](https://arxiv.org/abs/2611.08014)]
 - **`arXiv 2026`** Can Jev Improve Demonstration Retrieval for In-Context Learning? [[paper](https://arxiv.org/abs/2611.00737)]
-- **`arXiv 2024`** Adaptive-RAG: Learning to Adapt Retrieval-Augmented Large Language Models through Question Complexity. [[paper](https://arxiv.org/abs/2403.14403v2)]
+- **`NAACL 2024`** Adaptive-RAG: Learning to Adapt Retrieval-Augmented Large Language Models through Question Complexity. [[paper](https://aclanthology.org/2024.naacl-long.389/)]
 
 #### Record-Level Selection and Aggregation
 
@@ -591,8 +714,8 @@ Inside an agent, typed judgments decide which evidence reaches the reasoner, how
 - **`arXiv 2026`** EditJev: System One Routing for Image Editing Models. [[paper](https://arxiv.org/abs/2610.32635)]
 - **`arXiv 2026`** Jev-LiteMAS: Separating Decisions from Generation in Multi-Agent Workflows. [[paper](https://arxiv.org/abs/2610.21411v2)]
 - **`arXiv 2026`** Token-Efficient Multi-Agent Collaboration via System One-Guided Computational Division of Labor. [[paper](https://arxiv.org/abs/2610.08155)]
-- **`arXiv 2024`** RouteLLM: Learning to Route LLMs with Preference Data. [[paper](https://arxiv.org/abs/2406.18665)] [[code](https://github.com/lm-sys/RouteLLM)]
-- **`arXiv 2024`** FrugalGPT: How to Use Large Language Models While Reducing Cost and Improving Performance. [[paper](https://arxiv.org/abs/2305.05176)] [[code](https://github.com/stanford-futuredata/FrugalGPT)]
+- **`ICLR 2025`** RouteLLM: Learning to Route LLMs from Preference Data. [[paper](https://proceedings.iclr.cc/paper_files/paper/2025/hash/5503a7c69d48a2f86fc00b3dc09de686-Abstract-Conference.html)] [[code](https://github.com/lm-sys/RouteLLM)]
+- **`TMLR 2024`** FrugalGPT: How to Use Large Language Models While Reducing Cost and Improving Performance. [[paper](https://openreview.net/forum?id=cSimKw5p6R)] [[code](https://github.com/stanford-futuredata/FrugalGPT)]
 - **`NeurIPS 2018`** Predict Responsibly: Improving Fairness and Accuracy by Learning to Defer. [[paper](https://papers.neurips.cc/paper_files/paper/2018/hash/09d37c08f7b129e96277388757530c72-Abstract.html)]
 
 #### Information Acquisition
@@ -666,11 +789,13 @@ Inside an agent, typed judgments decide which evidence reaches the reasoner, how
 
 Fast and slow components run at different speeds, so a coordinated system must decide when to wait, who controls the next step, and which earlier work is still valid after new observations or request changes.
 
+**⏱️ Scheduling.** Dependencies decide which work can proceed and which must await a pending result, and reasoning triggers must specify who controls the next step.
+
 #### Continuing or Waiting for Results
 
+- **`ICLR 2026`** Real-Time Reasoning Agents in Evolving Environments. [[paper](https://proceedings.iclr.cc/paper_files/paper/2026/hash/ccbe16043125599293b01dd467c260f3-Abstract-Conference.html)] [[code](https://github.com/SALT-NLP/RealtimeGym)]
 - **`arXiv 2026`** JevGPT: Thinking Fast and Slow in Autonomous Research. [[paper](https://arxiv.org/abs/2610.18272v1)]
 - **`arXiv 2026`** JEV-Star: Fast, Low-Cost StarCraft II Control with Language-Model Planning. [[paper](https://arxiv.org/abs/2609.27331v1)] [[code](https://github.com/SC2musa/Jev_Star)]
-- **`arXiv 2025`** Real-Time Reasoning Agents in Evolving Environments. [[paper](https://arxiv.org/abs/2511.04898v1)] [[code](https://github.com/SALT-NLP/RealtimeGym)]
 - **`arXiv 2024`** Agents Thinking Fast and Slow: A Talker-Reasoner Architecture. [[paper](https://arxiv.org/abs/2410.08328v1)]
 
 #### Reasoning and Transferring Control
@@ -678,7 +803,9 @@ Fast and slow components run at different speeds, so a coordinated system must d
 - **`arXiv 2026`** JevAgentHarness: Benchmarking, Deploying and Training Decision Models That Share Control with LLMs. [[paper](https://arxiv.org/abs/2610.21412v1)] [[code](https://github.com/JevAgentHarnesS/JevAgentHarnEsS)]
 - **`arXiv 2026`** System Switch: When Should a Fast Decision Model Stop and Think? [[paper](https://arxiv.org/abs/2610.09683v1)] [[code](https://github.com/dexmac221/system-switch)]
 - **`arXiv 2026`** SOMA: Continuous Monitoring and Intervention for System Two Reasoning with System One Models. [[paper](https://arxiv.org/abs/2610.26793v1)]
-- **`arXiv 2024`** System-1.x: Learning to Balance Fast and Slow Planning with Language Models. [[paper](https://arxiv.org/abs/2407.14414v2)] [[code](https://github.com/swarnaHub/System-1.X)]
+- **`ICLR 2025`** System-1.x: Learning to Balance Fast and Slow Planning with Language Models. [[paper](https://proceedings.iclr.cc/paper_files/paper/2025/hash/605e59e78284907aa4fce5280838def3-Abstract-Conference.html)] [[code](https://github.com/swarnaHub/System-1.X)]
+
+**🔄 Task updates and reuse.** Execution results and new observations feed back through the reasoning–action loop; coordination then governs state updates, reuse of earlier work, and result validity when requests change.
 
 #### Updating Task State and Progress
 
@@ -700,11 +827,13 @@ Fast and slow components run at different speeds, so a coordinated system must d
 - **`arXiv 2026`** Jarvis: Coordination Deserves a Brain of Its Own in Agentic Interactive Models. [[paper](https://arxiv.org/abs/2610.23804v1)]
 - **`arXiv 2024`** Agents Thinking Fast and Slow: A Talker-Reasoner Architecture. [[paper](https://arxiv.org/abs/2410.08328v1)]
 
+<a id="system-improvement"></a>
+
 <a id="recursive-self-improvement"></a>
 
-### Recursive Self-Improvement
+### Decision-Guided System Improvement
 
-Execution feedback can also drive revisions that persist across runs, to features, policies, and harnesses, and recursively to the procedures that produce later improvements.
+Execution feedback can also guide revisions that carry over to subsequent runs, to input features, policies, downstream learners, and harnesses. Recursive self-improvement (RSI) extends this use of feedback to the procedures that select, evaluate, and organize further improvements.
 
 #### Feedback-Driven System Improvement
 
@@ -722,7 +851,12 @@ Execution feedback can also drive revisions that persist across runs, to feature
 
 ## 🏥 Domain Applications
 
-Domain studies include both hosted Jev applications and separately trained Jev-style models, often used without any generative agent.
+Domain studies include both hosted Jev applications and separately developed Jev-style models, often used without any generative agent. The figure shows how task-specific judgments are expressed as structured decisions.
+
+<p align="center">
+<a href="assets/domain_applications.pdf"><img src="assets/domain_applications.png" width="72%" alt="Representative applications of decision models across six domains."/></a>
+</p>
+<p align="center"><sub><i>Representative applications across six domains: (a) healthcare, (b) language and speech, (c) recommendation and data matching, (d) legal analysis, (e) industry, and (f) multimodal understanding.</i></sub></p>
 
 ### Healthcare and Education
 
@@ -781,6 +915,27 @@ Domain studies include both hosted Jev applications and separately trained Jev-s
 
 ## 🔭 Challenges and Future Directions
 
+The effectiveness of a Jev-like model depends on more than the quality of its individual predictions: its decisions depend on the alternatives and evidence it receives, and the value of its judgments depends on how the surrounding system uses them. This points to three connected challenges: constructing decision spaces that contain useful choices, adapting collaboration to task needs, and learning from deliberation to improve future decisions.
+
+<a id="research-agenda"></a>
+
+### Research Agenda
+
+<div align="center">
+
+| Research question | Evaluation strategy | Key criteria |
+| :--- | :--- | :--- |
+| ***Decision-space design*** | | |
+| **RQ 1:** When should candidates be revised? | Add, remove, or clarify candidates on the same task states; use retrieval and further reasoning as baselines. | Candidate coverage, selection accuracy, and revision cost. |
+| ***Runtime collaboration*** | | |
+| **RQ 2:** When does assistance improve decisions? | Measure which errors assistance corrects and which new errors it introduces under a fixed total budget. | Correction rate, introduced errors, and total cost. |
+| ***Learning from deliberation*** | | |
+| **RQ 3:** Which capabilities can be internalized? | Test direct predictions on new rule combinations and longer reasoning chains after training with deliberation. | Transfer accuracy, inference cost, and assistance demand. |
+| **RQ 4:** What makes supervision reliable? | Check that the learner has enough evidence to support each label. Change key evidence and test predictions against independently verified answers. | Evidence sensitivity and appropriate abstention. |
+| **RQ 5:** Can adaptation be sustained? | Track performance on new and earlier tasks over successive updates, with fixed supervision as a baseline. | Generalization, forgetting, and cumulative cost. |
+
+</div>
+
 ### Expanding Decision Spaces
 
 A Jev-like model cannot select an action that is absent from its candidate set. Open questions are how to recognize and revise an inadequate set, how to separate failures to *propose* from failures to *select*, and when to prefer candidate revision over retrieval or further reasoning.
@@ -808,8 +963,8 @@ Predicting an error is not the same as predicting whether assistance will fix it
 Deliberation resolves hard cases and produces experience that can be distilled back into fast judgment. The open question is whether this reciprocal loop transfers beyond familiar examples, rests on supervision that matches the learner's inputs, and can be sustained across changing tasks without forgetting.
 
 - **`arXiv 2026`** Learning through Internalization. [[paper](https://arxiv.org/abs/2606.20937v1)]
-- **`arXiv 2026`** When Compression Helps and When It Hurts: Condition-Aware Analysis of Chain-of-Thought Distillation. [[paper](https://arxiv.org/abs/2606.21704v2)]
-- **`arXiv 2026`** Self-Distilled Reasoner: On-Policy Self-Distillation for Large Language Models. [[paper](https://arxiv.org/abs/2601.18734v3)] [[code](https://github.com/siyan-zhao/OPSD)]
+- **`EMNLP 2026`** When Compression Helps and When It Hurts: Condition-Aware Analysis of Chain-of-Thought Distillation. [[paper](https://aclanthology.org/2026.emnlp-main.1543/)]
+- **`ICML 2026`** Self-Distilled Reasoner: On-Policy Self-Distillation for Large Language Models. [[paper](https://proceedings.mlr.press/v306/zhao26be.html)] [[code](https://github.com/siyan-zhao/OPSD)]
 - **`arXiv 2026`** EvoIn: Bridging Evolution and Internalization for Agent Fine-Tuning. [[paper](https://arxiv.org/abs/2609.35290v1)]
 - **`arXiv 2026`** Co-Evolving Harnesses and Models: On-Policy Correction Helps Weaker Models Catch Up Where Imitation Fails. [[paper](https://arxiv.org/abs/2609.09134v1)]
 - **`IJCAI 2026`** I-EDI: Robust Self-Evolution Agents via Verifiable Counterfactual Simulation. [[paper](https://www.ijcai.org/proceedings/2026/11)]
@@ -817,9 +972,9 @@ Deliberation resolves hard cases and produces experience that can be distilled b
 - **`arXiv 2026`** Jev-DLC: Decision-Level Continual Learning from Typed Feedback. [[paper](https://arxiv.org/abs/2610.31521v1)]
 - **`arXiv 2026`** SHIFT-JEV: Certified Abstention and Gain-Gated Continual Adaptation for LLM-Based Decision Models under Distribution Shift. [[paper](https://arxiv.org/abs/2610.34329v1)]
 - **`arXiv 2024`** Distilling System 2 into System 1. [[paper](https://arxiv.org/abs/2407.06023v3)]
-- **`arXiv 2022`** STaR: Bootstrapping Reasoning With Reasoning. [[paper](https://arxiv.org/abs/2203.14465v2)]
-- **`arXiv 2017`** Mastering Chess and Shogi by Self-Play with a General Reinforcement Learning Algorithm. [[paper](https://arxiv.org/abs/1712.01815v1)]
-- **`arXiv 2017`** Thinking Fast and Slow with Deep Learning and Tree Search. [[paper](https://arxiv.org/abs/1705.08439v4)]
+- **`NeurIPS 2022`** STaR: Bootstrapping Reasoning With Reasoning. [[paper](https://proceedings.neurips.cc/paper_files/paper/2022/hash/639a9a172c044fbb64175b5fad42e9a5-Abstract-Conference.html)]
+- **`Science 2018`** A general reinforcement learning algorithm that masters chess, shogi, and Go through self-play. [[paper](https://doi.org/10.1126/science.aar6404)]
+- **`NeurIPS 2017`** Thinking Fast and Slow with Deep Learning and Tree Search. [[paper](https://proceedings.neurips.cc/paper/2017/hash/d8e1344e27a5b08cdfd5d027d9b8d6de-Abstract.html)]
 - **`AISTATS 2011`** A Reduction of Imitation Learning and Structured Prediction to No-Regret Online Learning. [[paper](https://proceedings.mlr.press/v15/ross11a.html)]
 
 <a id="foundations"></a>
@@ -828,32 +983,27 @@ Deliberation resolves hard cases and produces experience that can be distilled b
 
 Agent frameworks, calibration and selective prediction, adaptive computation, and reasoning distillation that the survey builds on.
 
-- **`Resource 2026`** Introduction and TypeSafe primitives. [[link](https://docs.typesafe.ai/introduction)]
-- **`arXiv 2026`** Dynamics Within Latent Chain-of-Thought: An Empirical Study of Causal Structure. [[paper](https://arxiv.org/abs/2602.08783v3)]
-- **`arXiv 2026`** Think Wider: Mitigating Latent Rank Collapse in Implicit Chain-of-Thought Reasoning. [[paper](https://arxiv.org/abs/2609.07406v1)] [[code](https://github.com/whitesweater/WIDER)]
 - **`Resource 2026`** Introducing System One Models & Jev. [[link](https://typesafe.ai/blog/introducing-system-one-models-and-jev)]
 - **`arXiv 2025`** Qwen3 Technical Report. [[paper](https://arxiv.org/abs/2505.09388v1)] [[code](https://github.com/QwenLM/Qwen3)]
-- **`arXiv 2023`** Reflexion: Language Agents with Verbal Reinforcement Learning. [[paper](https://arxiv.org/abs/2303.11366v4)]
+- **`ICLR 2023`** ReAct: Synergizing Reasoning and Acting in Language Models. [[paper](https://openreview.net/forum?id=WE_vluYUL-X)]
+- **`NeurIPS 2023`** Reflexion: Language Agents with Verbal Reinforcement Learning. [[paper](https://proceedings.neurips.cc/paper_files/paper/2023/hash/1b44b878bb782e6954cd888628510e90-Abstract-Conference.html)]
 - **`arXiv 2023`** Efficient Guided Generation for Large Language Models. [[paper](https://arxiv.org/abs/2307.09702v4)]
-- **`arXiv 2023`** Language Models Don't Always Say What They Think: Unfaithful Explanations in Chain-of-Thought Prompting. [[paper](https://arxiv.org/abs/2305.04388v2)]
-- **`arXiv 2023`** Measuring Faithfulness in Chain-of-Thought Reasoning. [[paper](https://arxiv.org/abs/2307.13702v1)]
-- **`arXiv 2022`** Chain-of-Thought Prompting Elicits Reasoning in Large Language Models. [[paper](https://arxiv.org/abs/2201.11903v6)]
-- **`arXiv 2022`** ReAct: Synergizing Reasoning and Acting in Language Models. [[paper](https://arxiv.org/abs/2210.03629v3)]
+- **`NeurIPS 2022`** Chain-of-Thought Prompting Elicits Reasoning in Large Language Models. [[paper](https://proceedings.neurips.cc/paper_files/paper/2022/hash/9d5609613524ecf4f15af0f7b31abca4-Abstract-Conference.html)]
 - **`arXiv 2019`** Passage Re-ranking with BERT. [[paper](https://arxiv.org/abs/1901.04085v5)]
 
 <a id="related-surveys"></a>
 
 ## 📚 Related Surveys
 
+- **`FCS 2027`** Fast, slow, and tool-augmented thinking for LLMs: a review. [[link](https://journal.hep.com.cn/fcs/EN/10.1007/s11704-026-51673-0)]
 - **`SIGKDD Explor. 2026`** A Survey on Jev: Prior Research, Adaptation Costs, and Evidence of System One Models. [[link](https://evan-py-chen.github.io/jev-survey/)]
 - **`GitHub 2026`** Jev and Typed Decision Models: An Empirical Survey of Calibration, Selective Control, and Open Implementations. [[code](https://github.com/Eurekaleo/awesome-jev-survey)]
 - **`Resource 2026`** System One Decision Models: A Survey of the Typed Decision Contract, Its Ecosystem and Its Evidence. [[link](https://pozapas.github.io/system-one-models-survey/)]
 - **`arXiv 2026`** The Hitchhiker's Guide to System 1 Models: Fast Decision-Making Beyond LLMs. [[paper](https://arxiv.org/abs/2610.33775v2)]
 - **`TPAMI 2026`** From System 1 to System 2: A Survey of Reasoning Large Language Models. [[paper](https://doi.org/10.1109/TPAMI.2025.3637037)]
 - **`arXiv 2025`** Implicit Reasoning in Large Language Models: A Comprehensive Survey. [[paper](https://arxiv.org/abs/2509.02350v1)]
-- **`arXiv 2025`** Stop Overthinking: A Survey on Efficient Reasoning for Large Language Models. [[paper](https://arxiv.org/abs/2503.16419v4)]
+- **`TMLR 2025`** Stop Overthinking: A Survey on Efficient Reasoning for Large Language Models. [[paper](https://openreview.net/forum?id=HvoG8SxggZ)]
 - **`arXiv 2025`** From Efficiency to Adaptivity: A Deeper Look at Adaptive Reasoning in Large Language Models. [[paper](https://arxiv.org/abs/2511.10788v3)]
-- **`arXiv 2025`** Fast, Slow, and Tool-augmented Thinking for LLMs: A Review. [[paper](https://arxiv.org/abs/2508.12265v2)]
 
 <a id="citation"></a>
 
@@ -866,8 +1016,8 @@ If you find this survey or repository useful, please cite our paper ([PDF](Jev-L
   title        = {Jev-Like Models and Decision Systems: A Survey},
   author       = {Gao, Yiwei and Zhang, Chenhao and Ye, Mingcheng and
                   Li, Mingxuan and Zhang, Junbo and Chen, Jiale and
-                  Zu, Lizheng and Xu, Hongbin and Fan, Hehe and
-                  Wu, Baoyuan and Li, Ming and Zhu, Zheng},
+                  He, Yucheng and Zu, Lizheng and Xu, Hongbin and
+                  Fan, Hehe and Wu, Baoyuan and Li, Ming and Zhu, Zheng},
   year         = {2026},
   howpublished = {\url{https://github.com/OmniAI-Lab-CUHKSZ/Jev_Survey}}
 }
