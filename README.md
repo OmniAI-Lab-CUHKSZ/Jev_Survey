@@ -52,7 +52,7 @@ Lizheng Zu<sup>3</sup>, Hongbin Xu<sup>4</sup>, Hehe Fan<sup>5</sup>, Baoyuan Wu
 
 ## 📰 News
 
-- **[2026/11/18]** 📄 The survey paper is finalized. Read the [PDF](Jev-Like_Models_and_Decision_Systems_A_Survey.pdf). The README now mirrors the paper: all figures (including the agentic-workflow taxonomy), the representative-model, training-data, and benchmark tables, and the research agenda.
+- **[2026/11/18]** 📄 The survey paper is finalized ([PDF](Jev-Like_Models_and_Decision_Systems_A_Survey.pdf)).
 - **[2026/11/10]** 🚀 We release **Jev Survey**, a curated collection of papers, models, and benchmarks on Jev and typed decision models.
 
 ---
