@@ -4,12 +4,12 @@
 <a href="assets/jev_teaser.pdf"><img src="assets/jev_teaser.png" width="100%" alt="Overview of the survey: learn to judge, judge to act, and learn from execution."/></a>
 </p>
 
-# When Fast Decisions Meet Deliberate Reasoning: A Survey of Jev and Related Models
+# Jev-Like Models and Decision Systems: A Survey
 
 **Typed Decisions · Model Construction · Agentic Integration · Co-Evolution**
 
 <p>
-<img src="https://img.shields.io/badge/Paper-Coming_Soon-B31B1B?style=flat-square" alt="Paper coming soon"/>
+<a href="Jev-Like_Models_and_Decision_Systems_A_Survey.pdf"><img src="https://img.shields.io/badge/Paper-PDF-B31B1B?style=flat-square&logo=adobeacrobatreader&logoColor=white" alt="Paper PDF"/></a>
 <img src="https://img.shields.io/badge/Papers_and_Resources-261-7C3AED?style=flat-square" alt="261 papers and resources"/>
 <img src="https://img.shields.io/badge/Coverage-Through_Oct_2026-2F5FE0?style=flat-square" alt="Coverage through October 2026"/>
 <img src="https://img.shields.io/badge/Last_Update-November_2026-0EA5E9?style=flat-square" alt="Last update November 2026"/>
@@ -32,7 +32,8 @@
 
 ## 📰 News
 
-- **[2026/11]** We release **Jev Survey**, a curated collection of papers, models, and benchmarks on Jev and typed decision models. The paper is **coming soon**.
+- **[2026/11]** We release **Jev Survey**, a curated collection of papers, models, and benchmarks on Jev and typed decision models.
+- **[2026/11]** The survey paper is finalized. Read the [PDF](Jev-Like_Models_and_Decision_Systems_A_Survey.pdf).
 
 ---
 
@@ -40,7 +41,7 @@
 
 ## 📖 Introduction
 
-Official repository for **When Fast Decisions Meet Deliberate Reasoning: A Survey of Jev and Related Models**.
+Official repository for **Jev-Like Models and Decision Systems: A Survey**.
 
 LLM agents repeatedly judge which information matters, whether an intermediate result is reliable, and what to do next. Generating an extended response for every such judgment is costly when decisions are frequent or latency-sensitive. **Typed decision models** such as **Jev** offer an alternative: given evidence, a question, and a response type, they return bounded choices, scores, or probabilities that programs can consume directly, and they leave extended reasoning to the cases that need it.
 
@@ -858,14 +859,14 @@ Agent frameworks, calibration and selective prediction, adaptive computation, an
 
 ## 📝 Citation
 
-The paper is **coming soon**. If you find this repository useful, please star it and check back for the BibTeX entry.
+If you find this survey or repository useful, please cite our paper ([PDF](Jev-Like_Models_and_Decision_Systems_A_Survey.pdf)) and consider giving the repository a star.
 
 ```bibtex
-@article{jev_survey_2026,
-  title   = {When Fast Decisions Meet Deliberate Reasoning: A Survey of Jev and Related Models},
-  author  = {Coming soon},
-  journal = {Coming soon},
-  year    = {2026}
+@misc{jev_survey_2026,
+  title        = {Jev-Like Models and Decision Systems: A Survey},
+  author       = {Gao, Yiwei and Zhang, Chenhao and Ye, Mingcheng and Li, Mingxuan and Zhang, Junbo and Chen, Jiale and Zu, Lizheng and Xu, Hongbin and Fan, Hehe and Wu, Baoyuan and Li, Ming and Zhu, Zheng},
+  year         = {2026},
+  howpublished = {\url{https://github.com/OmniAI-Lab-CUHKSZ/Jev_Survey}}
 }
 ```
 
