@@ -81,12 +81,11 @@ The overview figure follows decision capabilities through three stages:
 
 A typed decision model answers a request $r=(s,q,\tau,\Gamma)$, where $s$ is the evidence state, $q$ the question, $\tau$ the response type, and $\Gamma$ the permitted answer space. Both $q$ and $\Gamma$ are supplied at inference time, so one model can serve many changing decision tasks through a common interface. Jev exposes three text primitives, and the figure below adds `Box` for image grounding:
 
-<table>
-<tr>
-<td width="50%" valign="middle">
-<a href="assets/typed_judgments.pdf"><img src="assets/typed_judgments.png" width="100%" alt="Typed judgments in a customer-support scenario: Choice, Noul, Score, and Box."/></a>
-</td>
-<td width="50%" valign="middle">
+<p align="center">
+  <a href="assets/typed_judgments.pdf"><img src="assets/typed_judgments.png" width="90%" alt="Typed judgments in a customer-support scenario: Choice, Noul, Score, and Box."/></a>
+</p>
+
+<p align="center"><sub><i>Typed judgments in a customer-support scenario. <code>Choice</code> selects a team, <code>Noul</code> assesses a proposition, <code>Score</code> rates urgency, and <code>Box</code> locates an object in an image. Each request specifies how the output should be interpreted.</i></sub></p>
 
 | Primitive | Question it answers | Output |
 | :--- | :--- | :--- |
@@ -94,12 +93,6 @@ A typed decision model answers a request $r=(s,q,\tau,\Gamma)$, where $s$ is the
 | `Noul` | Is this proposition true? | Probability that it holds |
 | `Score` | Where does the case fall on an ordered scale? | Distribution over rating levels |
 | `Box` | Where is the object in the image? | Bounding-box coordinates |
-
-</td>
-</tr>
-</table>
-
-<p align="center"><sub><i>Typed judgments in a customer-support scenario. <code>Choice</code> selects a team, <code>Noul</code> assesses a proposition, <code>Score</code> rates urgency, and <code>Box</code> locates an object in an image. Each request specifies how the output should be interpreted.</i></sub></p>
 
 We analyze every system in the survey along three shared dimensions:
 
