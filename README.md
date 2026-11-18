@@ -32,8 +32,8 @@
 
 ## 📰 News
 
-- **[2026/11]** We release **Jev Survey**, a curated collection of papers, models, and benchmarks on Jev and typed decision models.
-- **[2026/11]** The survey paper is finalized. Read the [PDF](Jev-Like_Models_and_Decision_Systems_A_Survey.pdf).
+- **[2026/11/18]** The survey paper is finalized. Read the [PDF](Jev-Like_Models_and_Decision_Systems_A_Survey.pdf).
+- **[2026/11/10]** We release **Jev Survey**, a curated collection of papers, models, and benchmarks on Jev and typed decision models.
 
 ---
 
