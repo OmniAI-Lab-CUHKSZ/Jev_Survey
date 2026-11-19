@@ -21,7 +21,7 @@ Lizheng Zu<sup>3</sup>, Hongbin Xu<sup>4</sup>, Hehe Fan<sup>5</sup>, Baoyuan Wu
 
 <p>
 <a href="Jev-Like_Models_and_Decision_Systems_A_Survey.pdf"><img src="https://img.shields.io/badge/Paper-PDF-B31B1B?style=for-the-badge&logo=adobeacrobatreader&logoColor=white" alt="Paper PDF"/></a>
-<a href="#table-of-contents"><img src="https://img.shields.io/badge/Papers_%26_Resources-258-7C3AED?style=for-the-badge" alt="258 papers and resources"/></a>
+<a href="#table-of-contents"><img src="https://img.shields.io/badge/Papers_%26_Resources-260-7C3AED?style=for-the-badge" alt="260 papers and resources"/></a>
 <a href="https://github.com/OmniAI-Lab-CUHKSZ/Jev_Survey/stargazers"><img src="https://img.shields.io/github/stars/OmniAI-Lab-CUHKSZ/Jev_Survey?style=for-the-badge&logo=github&color=F5B700" alt="GitHub stars"/></a>
 </p>
 <p>
@@ -977,6 +977,7 @@ Deliberation resolves hard cases and produces experience that can be distilled b
 Agent frameworks, calibration and selective prediction, adaptive computation, and reasoning distillation that the survey builds on.
 
 - **`Resource 2026`** Introducing System One Models & Jev. [[link](https://typesafe.ai/blog/introducing-system-one-models-and-jev)]
+- **`Hugging Face 2026`** StartLux-Decision-v1.1-4B-AutoThink: Released Model Configuration. [[model](https://huggingface.co/startlux-models/StartLux-Decision-v1.1-4B-AutoThink/blob/main/config.json)]
 - **`arXiv 2025`** Qwen3 Technical Report. [[paper](https://arxiv.org/abs/2505.09388v1)] [[code](https://github.com/QwenLM/Qwen3)]
 - **`ICLR 2023`** ReAct: Synergizing Reasoning and Acting in Language Models. [[paper](https://openreview.net/forum?id=WE_vluYUL-X)]
 - **`NeurIPS 2023`** Reflexion: Language Agents with Verbal Reinforcement Learning. [[paper](https://proceedings.neurips.cc/paper_files/paper/2023/hash/1b44b878bb782e6954cd888628510e90-Abstract-Conference.html)]
