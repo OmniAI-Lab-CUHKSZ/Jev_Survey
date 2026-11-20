@@ -20,13 +20,14 @@ Lizheng Zu<sup>3</sup>, Hongbin Xu<sup>4</sup>, Hehe Fan<sup>5</sup>, Baoyuan Wu
 </sub></p>
 
 <p>
+<a href="https://www.preprints.org/manuscript/202611.2129/v1"><img src="https://img.shields.io/badge/Preprint-202611.2129-1E6BB8?style=for-the-badge" alt="Preprint 202611.2129"/></a>
 <a href="Jev-Like_Models_and_Decision_Systems_A_Survey.pdf"><img src="https://img.shields.io/badge/Paper-PDF-B31B1B?style=for-the-badge&logo=adobeacrobatreader&logoColor=white" alt="Paper PDF"/></a>
 <a href="#table-of-contents"><img src="https://img.shields.io/badge/Papers_%26_Resources-260-7C3AED?style=for-the-badge" alt="260 papers and resources"/></a>
 <a href="https://github.com/OmniAI-Lab-CUHKSZ/Jev_Survey/stargazers"><img src="https://img.shields.io/github/stars/OmniAI-Lab-CUHKSZ/Jev_Survey?style=for-the-badge&logo=github&color=F5B700" alt="GitHub stars"/></a>
 </p>
 <p>
 <img src="https://img.shields.io/badge/Coverage-Through_Oct_2026-2F5FE0?style=flat-square" alt="Coverage through October 2026"/>
-<img src="https://img.shields.io/badge/Last_Update-2026--11--18-0EA5E9?style=flat-square" alt="Last update 2026-11-18"/>
+<img src="https://img.shields.io/badge/Last_Update-2026--11--20-0EA5E9?style=flat-square" alt="Last update 2026-11-20"/>
 <a href="https://github.com/OmniAI-Lab-CUHKSZ/Jev_Survey/pulls"><img src="https://img.shields.io/badge/PRs-Welcome-4B8278?style=flat-square" alt="PRs welcome"/></a>
 </p>
 
@@ -52,6 +53,7 @@ Lizheng Zu<sup>3</sup>, Hongbin Xu<sup>4</sup>, Hehe Fan<sup>5</sup>, Baoyuan Wu
 
 ## 📰 News
 
+- **[2026/11/20]** 📢 Our survey is now available on [Preprints.org](https://www.preprints.org/manuscript/202611.2129/v1).
 - **[2026/11/18]** 📄 The survey paper is finalized ([PDF](Jev-Like_Models_and_Decision_Systems_A_Survey.pdf)).
 - **[2026/11/10]** 🚀 We release **Jev Survey**, a curated collection of papers, models, and benchmarks on Jev and typed decision models.
 
@@ -1003,7 +1005,7 @@ Agent frameworks, calibration and selective prediction, adaptive computation, an
 
 ## 📝 Citation
 
-If you find this survey or repository useful, please cite our paper ([PDF](Jev-Like_Models_and_Decision_Systems_A_Survey.pdf)) and consider giving the repository a star.
+If you find this survey or repository useful, please cite our paper ([Preprint](https://www.preprints.org/manuscript/202611.2129/v1) · [PDF](Jev-Like_Models_and_Decision_Systems_A_Survey.pdf)) and consider giving the repository a star.
 
 ```bibtex
 @misc{jev_survey_2026,
@@ -1013,7 +1015,8 @@ If you find this survey or repository useful, please cite our paper ([PDF](Jev-L
                   He, Yucheng and Zu, Lizheng and Xu, Hongbin and
                   Fan, Hehe and Wu, Baoyuan and Li, Ming and Zhu, Zheng},
   year         = {2026},
-  howpublished = {\url{https://github.com/OmniAI-Lab-CUHKSZ/Jev_Survey}}
+  howpublished = {Preprints.org, 202611.2129},
+  url          = {https://www.preprints.org/manuscript/202611.2129/v1}
 }
 ```
 
